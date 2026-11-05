@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("CUSTOMER") // CUSTOMER | ADMIN
+  phone     String?
+  address   String?
+  city      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders Order[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  category    String   @default("Impression")
+  originalName String?
+  brand       String?
+  gender      String   @default("Unisex") // Men | Women | Unisex
+  year        Int?
+  shortDesc   String?
+  description String?
+  topNotes    String? // JSON array
+  heartNotes  String? // JSON array
+  baseNotes   String? // JSON array
+  accords     String? // JSON array
+  longevity   String?
+  sillage     String?
+  season      String? // JSON array
+  featured    Boolean  @default(false)
+  active      Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  liquidColor String   @default("#D4AF37") // hex for 3D liquid
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  variants ProductVariant[]
+  reviews  Review[]
+}
+
+model ProductVariant {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  size      String // "35ml" | "100ml"
+  label     String // "Small 35ml" | "Grand 100ml"
+  price     Float
+  oldPrice  Float?
+  stock     Int     @default(50)
+  image     String? // main photo
+  sku       String?
+  active    Boolean @default(true)
+
+  orderItems OrderItem[]
+}
+
+model Order {
+  id           String   @id @default(cuid())
+  orderNumber  String   @unique
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id])
+  customerName String
+  email        String
+  phone        String
+  address      String
+  city         String
+  notes        String?
+  subtotal     Float
+  shipping     Float    @default(0)
+  total        Float
+  status       String   @default("PENDING") // PENDING | CONFIRMED | SHIPPED | DELIVERED | CANCELLED
+  paymentMethod String  @default("COD")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  items OrderItem[]
+}
+
+model OrderItem {
+  id        String         @id @default(cuid())
+  orderId   String
+  order     Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variantId String?
+  variant   ProductVariant? @relation(fields: [variantId], references: [id])
+  name      String
+  size      String
+  price     Float
+  quantity  Int
+  image     String?
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    String?
+  name      String
+  rating    Int
+  comment   String
+  approved  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Setting {
+  id    String @id @default("main")
+  phone String @default("+92 323 2556620")
+  email String @default("hello@suhaperfumes.com")
+  instagram String @default("https://www.instagram.com/suhaperfumes/")
+  facebook  String @default("https://www.facebook.com/Suhaperfumes/")
+  address   String @default("Karachi, Pakistan")
+  shippingFee Float @default(199)
+  freeShippingOver Float @default(4000)
+  announcement String @default("Free delivery on orders over PKR 4,000 — Karachi, Pakistan")
+}
