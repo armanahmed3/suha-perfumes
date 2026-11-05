@@ -1,0 +1,39 @@
+{
+  "212-men": {
+    "small": "/images/products/212-men-small.jpg"
+  },
+  "invectus": {
+    "small": "/images/products/invectus-small.jpg"
+  },
+  "sweet-lavendar": {
+    "small": "/images/products/sweet-lavendar-small.jpg"
+  },
+  "gucchi-flora": {
+    "small": "/images/products/gucchi-flora-small.jpg",
+    "large": "/images/products/gucchi-flora-large.jpg"
+  },
+  "hugo-boss": {
+    "small": "/images/products/hugo-boss-small.jpg",
+    "large": "/images/products/hugo-boss-large.jpg"
+  },
+  "office-4-men": {
+    "small": "/images/products/office-4-men-small.jpg",
+    "large": "/images/products/office-4-men-large.jpg"
+  },
+  "zara": {
+    "small": "/images/products/zara-small.jpg",
+    "large": "/images/products/zara-large.jpg"
+  },
+  "gucchi-guilty": {
+    "large": "/images/products/gucchi-guilty-large.jpg"
+  },
+  "guchi-bloom": {
+    "large": "/images/products/guchi-bloom-large.jpg"
+  },
+  "tommy-hilfiger": {
+    "large": "/images/products/tommy-hilfiger-large.jpg"
+  },
+  "aqva-bulgari": {
+    "large": "/images/products/aqva-bulgari-large.jpg"
+  }
+}

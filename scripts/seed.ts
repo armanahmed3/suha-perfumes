@@ -31,14 +31,16 @@ const META = {
   'zara':             { liquid: '#D98E3B', tier: 'core' },
 };
 
-// which image files exist on disk
+// which image files exist on disk (real zip photos only — no AI images)
 const IMG_DIR = 'public/images/products';
-const has = (slug, size) => fs.existsSync(`${IMG_DIR}/${slug}-${size}.jpg`);
+const has = (slug: string, size: string) => fs.existsSync(`${IMG_DIR}/${slug}-${size}.jpg`);
 
-function imgFor(slug) {
-  const small = has(slug, 'small') ? `/images/products/${slug}-small.jpg` : `/images/products/${slug}-large.jpg`;
-  const large = has(slug, 'large') ? `/images/products/${slug}-large.jpg` : `/images/products/${slug}-small.jpg`;
-  return { small, large };
+// real photo or null — the UI renders the 3D bottle when there is no photo
+function imgFor(slug: string) {
+  return {
+    small: has(slug, 'small') ? `/images/products/${slug}-small.jpg` : null,
+    large: has(slug, 'large') ? `/images/products/${slug}-large.jpg` : null,
+  };
 }
 
 // pricing: PKR — premium tier slightly higher

@@ -6,12 +6,13 @@ import { Star } from "lucide-react";
 import type { Product } from "@/lib/types";
 import { useNav } from "@/lib/store";
 import { formatPKR } from "@/lib/format";
+import { BottleFallback } from "./BottleFallback";
 
 export function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
   const nav = useNav();
   const small = product.variants.find((v) => v.size === "35ml");
   const large = product.variants.find((v) => v.size === "100ml");
-  const img = large?.image || small?.image || "/images/logo-gold.png";
+  const img = large?.image || small?.image || null;
 
   return (
     <motion.article
@@ -25,13 +26,22 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
     >
       {/* image */}
       <div className="relative aspect-[3/4] overflow-hidden bg-muted">
-        <Image
-          src={img}
-          alt={`${product.name} by SUHA Perfumes`}
-          fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className="object-cover img-luxury transition-transform duration-700 ease-out group-hover:scale-108"
-        />
+        {img ? (
+          <Image
+            src={img}
+            alt={`${product.name} by SUHA Perfumes`}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className="object-cover img-luxury transition-transform duration-700 ease-out group-hover:scale-108"
+          />
+        ) : (
+          <BottleFallback
+            liquidColor={product.liquidColor}
+            size={large ? "large" : "small"}
+            label={product.name}
+            className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-noir/80 via-noir/10 to-transparent opacity-80" />
 
         {/* badges */}

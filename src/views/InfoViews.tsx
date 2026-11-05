@@ -38,7 +38,7 @@ export function AboutView() {
           <div className="relative">
             <div className="absolute -inset-6 bg-gradient-to-br from-gold/20 to-transparent blur-2xl rounded-full" aria-hidden="true" />
             <div className="relative luxury-card gold-border rounded-[2rem] overflow-hidden">
-              <Image src="/images/products/savauge-large.jpg" alt="SUHA flacon on silk" width={864} height={1152} className="w-full h-auto object-cover" />
+              <Image src="/images/products/office-4-men-large.jpg" alt="SUHA flacon on silk" width={864} height={1152} className="w-full h-auto object-cover" />
             </div>
           </div>
         </Reveal>

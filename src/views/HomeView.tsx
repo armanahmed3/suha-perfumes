@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ChevronDown, Droplets, Gem, Sparkles, Star, Truck, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/layout/ProductCard";
+import { HeroGallery } from "@/components/layout/HeroGallery";
 import { Reveal } from "@/components/layout/ViewTransition";
 import { useNav } from "@/lib/store";
 import type { Product, Settings } from "@/lib/types";
@@ -15,7 +16,6 @@ const HeroScene = dynamic(() => import("@/components/3d/HeroScene"), {
   ssr: false,
   loading: () => <div className="absolute inset-0 animate-pulse bg-gradient-to-b from-gold/5 to-transparent" />,
 });
-
 const fadeUp = {
   initial: { opacity: 0, y: 40 },
   animate: { opacity: 1, y: 0 },
@@ -36,86 +36,98 @@ export function HomeView({ products, settings }: { products: Product[]; settings
           <div className="absolute bottom-0 right-0 w-[30vw] h-[30vw] rounded-full bg-gold/5 blur-[100px]" />
         </div>
 
-        {/* 3D scene */}
+        {/* 3D scene — ambient gold dust only; the real photography takes the stage */}
         <div className="absolute inset-0">
-          <HeroScene liquidColor="#D4AF37" />
+          <HeroScene liquidColor="#D4AF37" ambient />
         </div>
 
         {/* legibility gradient (stronger on small screens) */}
         <div
-          className="absolute inset-0 pointer-events-none bg-gradient-to-r from-background/85 via-background/40 to-transparent sm:from-background/60 sm:via-background/15"
+          className="absolute inset-0 pointer-events-none bg-gradient-to-b from-background/80 via-background/55 to-background/85 lg:bg-gradient-to-r lg:from-background/85 lg:via-background/45 lg:to-transparent"
           aria-hidden="true"
         />
 
-        {/* copy */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-20">
-          <div className="max-w-2xl">
-            <motion.p
-              {...fadeUp}
-              transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="text-xs sm:text-sm tracking-[0.5em] uppercase text-gold mb-6"
-            >
-              ✦ SUHA Perfumes · Karachi ✦
-            </motion.p>
-
-            <motion.h1
-              {...fadeUp}
-              transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display text-5xl sm:text-6xl lg:text-8xl font-medium leading-[0.95] tracking-tight"
-            >
-              Wear the
-              <span className="block gold-text italic font-semibold">Extraordinary</span>
-            </motion.h1>
-
-            <motion.p
-              {...fadeUp}
-              transition={{ duration: 0.9, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-6 text-base sm:text-lg text-muted-foreground max-w-lg leading-relaxed"
-            >
-              23 luxury impression fragrances for him &amp; her — meticulously blended, beautifully bottled.
-              Every icon, reimagined in <span className="text-gold">Petite 35ml</span> and{" "}
-              <span className="text-gold">Grand 100ml</span>.
-            </motion.p>
-
-            <motion.div
-              {...fadeUp}
-              transition={{ duration: 0.9, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-9 flex flex-wrap gap-4"
-            >
-              <Button
-                size="lg"
-                onClick={() => nav.navigate({ name: "shop" })}
-                className="bg-gold text-noir hover:bg-gold/90 h-13 px-8 text-sm tracking-[0.18em] uppercase rounded-full group"
+        {/* copy + real-photo cinematic gallery */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-24">
+          <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-8 items-center">
+            <div className="max-w-2xl">
+              <motion.p
+                {...fadeUp}
+                transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                className="text-xs sm:text-sm tracking-[0.5em] uppercase text-gold mb-6"
               >
-                Explore Collection
-                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() => nav.navigate({ name: "about" })}
-                className="border-gold/40 text-gold hover:bg-gold/10 h-13 px-8 text-sm tracking-[0.18em] uppercase rounded-full"
-              >
-                Our Story
-              </Button>
-            </motion.div>
+                ✦ SUHA Perfumes · Karachi ✦
+              </motion.p>
 
-            {/* stats */}
+              <motion.h1
+                {...fadeUp}
+                transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-medium leading-[0.95] tracking-tight"
+              >
+                Wear the
+                <span className="block gold-text italic font-semibold">Extraordinary</span>
+              </motion.h1>
+
+              <motion.p
+                {...fadeUp}
+                transition={{ duration: 0.9, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-6 text-base sm:text-lg text-muted-foreground max-w-lg leading-relaxed"
+              >
+                23 luxury impression fragrances for him &amp; her — meticulously blended, beautifully bottled.
+                Every icon, reimagined in <span className="text-gold">Petite 35ml</span> and{" "}
+                <span className="text-gold">Grand 100ml</span>.
+              </motion.p>
+
+              <motion.div
+                {...fadeUp}
+                transition={{ duration: 0.9, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-9 flex flex-wrap gap-4"
+              >
+                <Button
+                  size="lg"
+                  onClick={() => nav.navigate({ name: "shop" })}
+                  className="bg-gold text-noir hover:bg-gold/90 h-13 px-8 text-sm tracking-[0.18em] uppercase rounded-full group"
+                >
+                  Explore Collection
+                  <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  onClick={() => nav.navigate({ name: "about" })}
+                  className="border-gold/40 text-gold hover:bg-gold/10 h-13 px-8 text-sm tracking-[0.18em] uppercase rounded-full"
+                >
+                  Our Story
+                </Button>
+              </motion.div>
+
+              {/* stats */}
+              <motion.div
+                {...fadeUp}
+                transition={{ duration: 0.9, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-12 flex gap-8 sm:gap-12"
+              >
+                {[
+                  { n: "23+", l: "Fragrances" },
+                  { n: "2", l: "Sizes each" },
+                  { n: "4.8★", l: "Loved rating" },
+                ].map((s) => (
+                  <div key={s.l}>
+                    <p className="font-display text-3xl sm:text-4xl font-semibold gold-text">{s.n}</p>
+                    <p className="text-[11px] tracking-[0.25em] uppercase text-muted-foreground mt-1">{s.l}</p>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* real product photography — cinematic rotating gallery */}
             <motion.div
-              {...fadeUp}
-              transition={{ duration: 0.9, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-12 flex gap-8 sm:gap-12"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="relative mt-10 lg:mt-0 mb-8 lg:mb-0"
             >
-              {[
-                { n: "23+", l: "Fragrances" },
-                { n: "2", l: "Sizes each" },
-                { n: "4.8★", l: "Loved rating" },
-              ].map((s) => (
-                <div key={s.l}>
-                  <p className="font-display text-3xl sm:text-4xl font-semibold gold-text">{s.n}</p>
-                  <p className="text-[11px] tracking-[0.25em] uppercase text-muted-foreground mt-1">{s.l}</p>
-                </div>
-              ))}
+              <HeroGallery />
             </motion.div>
           </div>
         </div>
@@ -247,9 +259,9 @@ export function HomeView({ products, settings }: { products: Product[]; settings
         </Reveal>
         <div className="grid sm:grid-cols-3 gap-5">
           {[
-            { title: "For Him", sub: "Bold woods & fresh aquatics", gender: "Men", img: "blue-d-channel" },
+            { title: "For Him", sub: "Bold woods & fresh aquatics", gender: "Men", img: "hugo-boss" },
             { title: "For Her", sub: "Blooms, amber & allure", gender: "Women", img: "guchi-bloom" },
-            { title: "Unisex", sub: "Shared secrets in a bottle", gender: "Unisex", img: "ck-1" },
+            { title: "Unisex", sub: "Shared secrets in a bottle", gender: "Unisex", img: "zara" },
           ].map((c, i) => (
             <Reveal key={c.title} delay={i * 0.12}>
               <button

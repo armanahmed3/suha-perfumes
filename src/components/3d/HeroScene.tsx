@@ -35,13 +35,13 @@ function GoldDust() {
   );
 }
 
-export default function HeroScene({ liquidColor = "#D4AF37" }: { liquidColor?: string }) {
+export default function HeroScene({ liquidColor = "#D4AF37", ambient = false }: { liquidColor?: string; ambient?: boolean }) {
   return (
-    <ResponsiveScene liquidColor={liquidColor} />
+    <ResponsiveScene liquidColor={liquidColor} ambient={ambient} />
   );
 }
 
-function ResponsiveScene({ liquidColor }: { liquidColor: string }) {
+function ResponsiveScene({ liquidColor, ambient }: { liquidColor: string; ambient?: boolean }) {
   // pull the camera back on narrow/portrait screens so the flacon never crowds the copy
   const fov = 34;
   const baseZ = 6.6;
@@ -59,10 +59,12 @@ function ResponsiveScene({ liquidColor }: { liquidColor: string }) {
         <pointLight position={[-6, 2, -4]} intensity={40} color="#d4af37" />
         <pointLight position={[4, -2, 4]} intensity={26} color="#fff2cf" />
 
-        <FloatingBottle liquidColor={liquidColor} size="large" capColor="#C8C8D0" rotateSpeed={0.5} floatIntensity={1.4} />
+        {!ambient && (
+          <FloatingBottle liquidColor={liquidColor} size="large" capColor="#C8C8D0" rotateSpeed={0.5} floatIntensity={1.4} />
+        )}
         <GoldDust />
 
-        <ContactShadows position={[0, -1.16, 0]} opacity={0.42} scale={9} blur={2.6} far={3} color="#000000" />
+        <ContactShadows position={[0, -1.16, 0]} opacity={ambient ? 0 : 0.42} scale={9} blur={2.6} far={3} color="#000000" />
 
         {/* local (offline) studio environment for gold reflections */}
         <Environment resolution={256}>

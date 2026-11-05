@@ -8,6 +8,7 @@ import { ArrowLeft, Droplet, Flower, Leaf, Minus, Plus, Rotate3d, ShoppingBag, S
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ProductCard } from "@/components/layout/ProductCard";
+import { BottleFallback } from "@/components/layout/BottleFallback";
 import { useCart, useNav } from "@/lib/store";
 import { formatPKR } from "@/lib/format";
 import type { Product, Variant } from "@/lib/types";
@@ -75,7 +76,7 @@ export function ProductView({ product, allProducts }: { product: Product; allPro
                 style={{ background: `radial-gradient(circle at 50% 42%, ${product.liquidColor}, transparent 65%)` }}
                 aria-hidden="true"
               />
-              {mode3d ? (
+              {mode3d || !selected?.image ? (
                 <BottleViewer liquidColor={product.liquidColor} size={selected?.size === "35ml" ? "small" : "large"} />
               ) : (
                 selected?.image && (
@@ -85,24 +86,26 @@ export function ProductView({ product, allProducts }: { product: Product; allPro
                 )
               )}
 
-              {/* toggle */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex rounded-full glass-panel p-1 z-10">
-                <button
-                  onClick={() => setMode3d(true)}
-                  className={`px-4 py-2 rounded-full text-xs tracking-[0.15em] uppercase flex items-center gap-1.5 transition-colors ${mode3d ? "bg-gold text-noir font-semibold" : "text-muted-foreground hover:text-gold"}`}
-                >
-                  <Rotate3d className="w-3.5 h-3.5" /> 3D
-                </button>
-                <button
-                  onClick={() => setMode3d(false)}
-                  className={`px-4 py-2 rounded-full text-xs tracking-[0.15em] uppercase flex items-center gap-1.5 transition-colors ${!mode3d ? "bg-gold text-noir font-semibold" : "text-muted-foreground hover:text-gold"}`}
-                >
-                  <Image aria-hidden="true" src="/images/logo-gold.png" alt="" width={14} height={14} className="rounded-sm" /> Photo
-                </button>
-              </div>
+              {/* toggle — photo option only when the selected flacon has a real photo */}
+              {selected?.image && (
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex rounded-full glass-panel p-1 z-10">
+                  <button
+                    onClick={() => setMode3d(true)}
+                    className={`px-4 py-2 rounded-full text-xs tracking-[0.15em] uppercase flex items-center gap-1.5 transition-colors ${mode3d ? "bg-gold text-noir font-semibold" : "text-muted-foreground hover:text-gold"}`}
+                  >
+                    <Rotate3d className="w-3.5 h-3.5" /> 3D
+                  </button>
+                  <button
+                    onClick={() => setMode3d(false)}
+                    className={`px-4 py-2 rounded-full text-xs tracking-[0.15em] uppercase flex items-center gap-1.5 transition-colors ${!mode3d ? "bg-gold text-noir font-semibold" : "text-muted-foreground hover:text-gold"}`}
+                  >
+                    <Image aria-hidden="true" src="/images/logo-gold.png" alt="" width={14} height={14} className="rounded-sm" /> Photo
+                  </button>
+                </div>
+              )}
 
               <p className="absolute top-4 left-4 text-[10px] tracking-[0.3em] uppercase text-muted-foreground z-10">
-                {mode3d ? "Drag to spin the flacon" : "Authentic product photo"}
+                {mode3d || !selected?.image ? "Drag to spin the flacon" : "Authentic product photo"}
               </p>
             </div>
 
@@ -113,13 +116,22 @@ export function ProductView({ product, allProducts }: { product: Product; allPro
                 return (
                   <button
                     key={variant.id}
-                    onClick={() => { setSelectedId(variant.id); setMode3d(variant.size !== "35ml" ? mode3d : false); }}
+                    onClick={() => { setSelectedId(variant.id); if (variant.image) setMode3d(variant.size !== "35ml" ? mode3d : false); else setMode3d(true); }}
                     className={`relative rounded-2xl overflow-hidden border-2 transition-all duration-300 aspect-[16/10] ${
                       selected?.id === variant.id ? "border-gold shadow-[0_0_24px_-6px_var(--gold)]" : "border-transparent opacity-70 hover:opacity-100"
                     }`}
                     aria-pressed={selected?.id === variant.id}
                   >
-                    {variant.image && <Image src={variant.image} alt={`${product.name} ${variant.label}`} fill className="object-cover" sizes="25vw" />}
+                    {variant.image ? (
+                      <Image src={variant.image} alt={`${product.name} ${variant.label}`} fill className="object-cover" sizes="25vw" />
+                    ) : (
+                      <BottleFallback
+                        liquidColor={product.liquidColor}
+                        size={variant.size === "35ml" ? "small" : "large"}
+                        label={`${product.name} ${variant.label}`}
+                        className="absolute inset-0"
+                      />
+                    )}
                     <span className="absolute bottom-2 left-2 px-2.5 py-1 rounded-full bg-noir/70 backdrop-blur text-[10px] tracking-[0.2em] uppercase text-gold">
                       {variant.label}
                     </span>

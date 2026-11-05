@@ -1,0 +1,913 @@
+{
+  "IMG-20261103-WA0056.jpg": {
+    "text": "SUHA PERFUMES Impression of OFFICE For Man",
+    "product": "OFFICE For Man",
+    "bottle": "small",
+    "slug": "office-4-men",
+    "score": 0.65
+  },
+  "IMG-20261103-WA0058.jpg": {
+    "text": "SUHA PERFUMES Impression of GUCCI FLORA",
+    "product": "GUCCI FLORA",
+    "bottle": "small",
+    "slug": "gucchi-flora",
+    "score": 0.62
+  },
+  "IMG-20261103-WA0059.jpg": {
+    "text": "SUHA PERFUMES Impression of HUGO BOSS",
+    "product": "HUGO BOSS",
+    "bottle": "small",
+    "slug": "hugo-boss",
+    "score": 0.59
+  },
+  "IMG-20261103-WA0060.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0061.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0064.jpg": {
+    "text": "SUHA PERFUMES Impression of ZARA FOR HIM",
+    "product": "ZARA FOR HIM",
+    "bottle": "small",
+    "slug": "zara",
+    "score": 0.63
+  },
+  "IMG-20261103-WA0057.jpg": {
+    "text": "SUHA PERFUMES Impression of 212 MEN",
+    "product": "212 MEN",
+    "bottle": "small",
+    "slug": "212-men",
+    "score": 0.56
+  },
+  "IMG-20261103-WA0062.jpg": {
+    "text": "SUHA PERFUMES Impression of HUGO BOSS",
+    "product": "HUGO BOSS",
+    "bottle": "small",
+    "slug": "hugo-boss",
+    "score": 0.59
+  },
+  "IMG-20261103-WA0070.jpg": {
+    "text": "SUHA PERFUMES Impression of INVICTUS",
+    "product": "INVICTUS",
+    "bottle": "small",
+    "slug": "invectus",
+    "score": 0.58
+  },
+  "IMG-20261103-WA0065.jpg": {
+    "text": "SUHA PERFUMES Impression of SWEET LAVENDER",
+    "product": "Sweet Lavender",
+    "bottle": "small",
+    "slug": "sweet-lavendar",
+    "score": 0.65
+  },
+  "IMG-20261103-WA0063.jpg": {
+    "text": "SUHA PERFUMES Impression of 212 MEN",
+    "product": "212 MEN",
+    "bottle": "small",
+    "slug": "212-men",
+    "score": 0.56
+  },
+  "IMG-20261103-WA0068.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0076.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0071.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0069.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0066.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0067.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0074.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0082.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0077.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0075.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0072.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0073.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0080.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0088.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0083.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0081.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0078.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0079.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0086.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0094.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0089.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0087.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0084.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0085.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0092.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0100.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0095.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0093.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0090.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0091.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0098.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0106.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0099.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0101.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0096.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0097.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0104.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0112.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0105.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0107.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0102.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0103.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0110.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0118.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0111.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0113.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0108.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0109.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0116.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0124.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0117.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0119.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0114.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0115.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0122.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0130.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0123.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0125.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0120.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0121.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0128.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0136.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0129.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0131.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0126.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0127.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0134.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0142.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0135.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0137.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0132.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0133.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0140.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0148.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0141.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0143.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0139.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0138.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0146.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0154.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0147.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0149.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0145.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0144.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0152.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0160.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0155.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0153.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0151.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0150.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0158.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0166.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0161.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0159.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0157.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0156.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0164.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0167.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0165.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0162.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0163.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0170.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0169.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  },
+  "IMG-20261103-WA0168.jpg": {
+    "text": "",
+    "product": "",
+    "bottle": "unknown",
+    "slug": "UNKNOWN",
+    "score": 0,
+    "error": "API request failed with status 429: {\"error\":\"Too many requests, please try again later\"}"
+  }
+}
