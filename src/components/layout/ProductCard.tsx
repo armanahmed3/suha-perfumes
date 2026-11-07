@@ -74,8 +74,8 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             </p>
           </div>
           <div className="text-right">
-            {small && <p className="text-[11px] text-white/55 line-through leading-none">{formatPKR(small.price)}</p>}
-            {large && <p className="text-sm font-semibold text-gold-light leading-tight">{formatPKR(large.price)}</p>}
+            {small && <p className="text-[11px] text-white/80 leading-tight">35ml: {formatPKR(small.price)}</p>}
+            {large && <p className="text-sm font-semibold text-gold-light leading-tight mt-0.5">100ml: {formatPKR(large.price)}</p>}
           </div>
         </div>
       </div>

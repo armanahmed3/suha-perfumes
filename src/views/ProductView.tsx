@@ -25,7 +25,7 @@ export function ProductView({ product, allProducts }: { product: Product; allPro
   const large = product.variants.find((v) => v.size === "100ml");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [qty, setQty] = useState(1);
-  const [mode3d, setMode3d] = useState(true);
+  const [mode3d, setMode3d] = useState(false);
   const [added, setAdded] = useState(false);
   // derive a valid selection without effects (falls back to Grand, then first variant)
   const selected = useMemo(
@@ -86,26 +86,24 @@ export function ProductView({ product, allProducts }: { product: Product; allPro
                 )
               )}
 
-              {/* toggle — photo option only when the selected flacon has a real photo */}
-              {selected?.image && (
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex rounded-full glass-panel p-1 z-10">
-                  <button
-                    onClick={() => setMode3d(true)}
-                    className={`px-4 py-2 rounded-full text-xs tracking-[0.15em] uppercase flex items-center gap-1.5 transition-colors ${mode3d ? "bg-gold text-noir font-semibold" : "text-muted-foreground hover:text-gold"}`}
-                  >
-                    <Rotate3d className="w-3.5 h-3.5" /> 3D
-                  </button>
-                  <button
-                    onClick={() => setMode3d(false)}
-                    className={`px-4 py-2 rounded-full text-xs tracking-[0.15em] uppercase flex items-center gap-1.5 transition-colors ${!mode3d ? "bg-gold text-noir font-semibold" : "text-muted-foreground hover:text-gold"}`}
-                  >
-                    <Image aria-hidden="true" src="/images/logo-gold.png" alt="" width={14} height={14} className="rounded-sm" /> Photo
-                  </button>
-                </div>
-              )}
+              {/* toggle — photo option and 3d option */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex rounded-full glass-panel p-1 z-10 shadow-lg shadow-black/30">
+                <button
+                  onClick={() => setMode3d(false)}
+                  className={`px-4 py-2 rounded-full text-xs tracking-[0.15em] uppercase flex items-center gap-1.5 transition-colors ${!mode3d ? "bg-gold text-noir font-semibold shadow" : "text-muted-foreground hover:text-gold"}`}
+                >
+                  <Image aria-hidden="true" src="/images/logo-icon.png" alt="" width={14} height={14} className="object-contain" /> Photo
+                </button>
+                <button
+                  onClick={() => setMode3d(true)}
+                  className={`px-4 py-2 rounded-full text-xs tracking-[0.15em] uppercase flex items-center gap-1.5 transition-colors ${mode3d ? "bg-gold text-noir font-semibold shadow" : "text-muted-foreground hover:text-gold"}`}
+                >
+                  <Rotate3d className="w-3.5 h-3.5" /> 3D View
+                </button>
+              </div>
 
-              <p className="absolute top-4 left-4 text-[10px] tracking-[0.3em] uppercase text-muted-foreground z-10">
-                {mode3d || !selected?.image ? "Drag to spin the flacon" : "Authentic product photo"}
+              <p className="absolute top-4 left-4 text-[10px] tracking-[0.3em] uppercase text-gold z-10 bg-noir/60 backdrop-blur px-3 py-1 rounded-full border border-gold/20">
+                {mode3d ? "Interactive 3D Flacon" : "Authentic Studio Photography"}
               </p>
             </div>
 
@@ -116,7 +114,7 @@ export function ProductView({ product, allProducts }: { product: Product; allPro
                 return (
                   <button
                     key={variant.id}
-                    onClick={() => { setSelectedId(variant.id); if (variant.image) setMode3d(variant.size !== "35ml" ? mode3d : false); else setMode3d(true); }}
+                    onClick={() => setSelectedId(variant.id)}
                     className={`relative rounded-2xl overflow-hidden border-2 transition-all duration-300 aspect-[16/10] ${
                       selected?.id === variant.id ? "border-gold shadow-[0_0_24px_-6px_var(--gold)]" : "border-transparent opacity-70 hover:opacity-100"
                     }`}

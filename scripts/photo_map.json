@@ -1,39 +1,94 @@
 {
   "212-men": {
-    "small": "/images/products/212-men-small.jpg"
+    "small": "/images/products/212-men-small.jpg",
+    "large": "/images/products/212-men-large.jpg"
   },
-  "invectus": {
-    "small": "/images/products/invectus-small.jpg"
+  "ameer-al-oud": {
+    "small": "/images/products/ameer-al-oud-small.jpg",
+    "large": "/images/products/ameer-al-oud-large.jpg"
   },
-  "sweet-lavendar": {
-    "small": "/images/products/sweet-lavendar-small.jpg"
+  "aqva-bulgari": {
+    "small": "/images/products/aqva-bulgari-small.jpg",
+    "large": "/images/products/aqva-bulgari-large.jpg"
+  },
+  "blue-d-channel": {
+    "small": "/images/products/blue-d-channel-small.jpg",
+    "large": "/images/products/blue-d-channel-large.jpg"
+  },
+  "boom-shell": {
+    "small": "/images/products/boom-shell-small.jpg",
+    "large": "/images/products/boom-shell-large.jpg"
+  },
+  "cigar": {
+    "small": "/images/products/cigar-small.jpg",
+    "large": "/images/products/cigar-large.jpg"
+  },
+  "ck-1": {
+    "small": "/images/products/ck-1-small.jpg",
+    "large": "/images/products/ck-1-large.jpg"
+  },
+  "dylan-blue": {
+    "small": "/images/products/dylan-blue-small.jpg",
+    "large": "/images/products/dylan-blue-large.jpg"
+  },
+  "ferhenite": {
+    "small": "/images/products/ferhenite-small.jpg",
+    "large": "/images/products/ferhenite-large.jpg"
   },
   "gucchi-flora": {
     "small": "/images/products/gucchi-flora-small.jpg",
     "large": "/images/products/gucchi-flora-large.jpg"
   },
+  "gucchi-guilty": {
+    "small": "/images/products/gucchi-guilty-small.jpg",
+    "large": "/images/products/gucchi-guilty-large.jpg"
+  },
+  "guchi-bloom": {
+    "small": "/images/products/guchi-bloom-small.jpg",
+    "large": "/images/products/guchi-bloom-large.jpg"
+  },
   "hugo-boss": {
     "small": "/images/products/hugo-boss-small.jpg",
     "large": "/images/products/hugo-boss-large.jpg"
+  },
+  "invectus": {
+    "small": "/images/products/invectus-small.jpg",
+    "large": "/images/products/invectus-large.jpg"
+  },
+  "ismyaki": {
+    "small": "/images/products/ismyaki-small.jpg",
+    "large": "/images/products/ismyaki-large.jpg"
+  },
+  "janan-sport": {
+    "small": "/images/products/janan-sport-small.jpg",
+    "large": "/images/products/janan-sport-large.jpg"
   },
   "office-4-men": {
     "small": "/images/products/office-4-men-small.jpg",
     "large": "/images/products/office-4-men-large.jpg"
   },
+  "open": {
+    "small": "/images/products/open-small.jpg",
+    "large": "/images/products/open-large.jpg"
+  },
+  "poision": {
+    "small": "/images/products/poision-small.jpg",
+    "large": "/images/products/poision-large.jpg"
+  },
+  "savauge": {
+    "small": "/images/products/savauge-small.jpg",
+    "large": "/images/products/savauge-large.jpg"
+  },
+  "sweet-lavendar": {
+    "small": "/images/products/sweet-lavendar-small.jpg",
+    "large": "/images/products/sweet-lavendar-large.jpg"
+  },
+  "tommy-hilfiger": {
+    "small": "/images/products/tommy-hilfiger-small.jpg",
+    "large": "/images/products/tommy-hilfiger-large.jpg"
+  },
   "zara": {
     "small": "/images/products/zara-small.jpg",
     "large": "/images/products/zara-large.jpg"
-  },
-  "gucchi-guilty": {
-    "large": "/images/products/gucchi-guilty-large.jpg"
-  },
-  "guchi-bloom": {
-    "large": "/images/products/guchi-bloom-large.jpg"
-  },
-  "tommy-hilfiger": {
-    "large": "/images/products/tommy-hilfiger-large.jpg"
-  },
-  "aqva-bulgari": {
-    "large": "/images/products/aqva-bulgari-large.jpg"
   }
 }

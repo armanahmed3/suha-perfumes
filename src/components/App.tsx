@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "@/components/layout/Header";
@@ -41,6 +42,14 @@ function IntroCurtain() {
             transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
             className="text-center"
           >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.7, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4"
+            >
+              <Image src="/images/logo-icon.png" alt="SUHA" fill className="object-contain drop-shadow-[0_4px_24px_rgba(212,175,55,0.5)]" priority />
+            </motion.div>
             <p className="font-display text-5xl sm:text-7xl font-semibold gold-text">SUHA</p>
             <motion.p
               initial={{ opacity: 0 }}
@@ -71,8 +80,8 @@ export default function App() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/products?sort=curated").then((r) => r.json()),
-      fetch("/api/settings").then((r) => r.json()),
+      fetch("/api/products/?sort=curated").then((r) => r.json()),
+      fetch("/api/settings/").then((r) => r.json()),
     ])
       .then(([p, s]) => {
         setProducts(p.products || []);

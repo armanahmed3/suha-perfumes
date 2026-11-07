@@ -24,11 +24,17 @@ export function Footer() {
           <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-4">
               <span className="relative w-12 h-12">
-                <Image src="/images/logo-gold.png" alt="SUHA Perfumes" fill className="object-contain" sizes="48px" />
+                <Image
+                  src="/images/logo-icon.png"
+                  alt="SUHA Perfumes emblem"
+                  fill
+                  className="object-contain drop-shadow-[0_2px_12px_rgba(212,175,55,0.4)]"
+                  sizes="48px"
+                />
               </span>
               <div className="leading-none">
-                <p className="font-display text-2xl font-semibold tracking-[0.18em] gold-text">SUHA</p>
-                <p className="text-[9px] tracking-[0.5em] uppercase text-[#f3ecdd]/50">Perfumes</p>
+                <p className="font-display text-2xl font-semibold tracking-[0.2em] gold-text">SUHA</p>
+                <p className="text-[9px] tracking-[0.45em] uppercase text-[#f3ecdd]/50 mt-0.5">Perfumes</p>
               </div>
             </div>
             <p className="text-sm text-[#f3ecdd]/60 leading-relaxed">

@@ -19,10 +19,13 @@ node_modules
 
 # production
 /build
+deploy_dist/
+*.zip
 
 # misc
 .DS_Store
 *.pem
+eng.traineddata
 
 # debug
 npm-debug.log*
@@ -30,12 +33,12 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files
+.env
+.env*.local
 
 # vercel
 .vercel
-
 
 # typescript
 *.tsbuildinfo
@@ -46,9 +49,18 @@ local-*
 *.log
 dev.log
 dev.out.log
+server.log
 test
 prompt
 
-server.log
 # Skills directory
 /skills/
+
+# scratch image crops & intermediates
+scripts/all_zip_images/
+scripts/contact_sheets/
+scripts/slice_*.jpg
+scripts/zoom_*.jpg
+scripts/test_*.jpg
+scripts/test_*.png
+scripts/clean_patch.jpg

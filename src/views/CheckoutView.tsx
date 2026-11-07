@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Banknote, CheckCircle2, Loader2, Lock, ShoppingBag, Truck } from "lucide-react";
+import { ArrowLeft, Banknote, CheckCircle2, Loader2, Lock, MessageCircle, ShoppingBag, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -41,24 +41,61 @@ export function CheckoutView({ settings }: { settings: Settings | null }) {
     e.preventDefault();
     if (!lines.length) return;
     setLoading(true);
+
+    let orderNumber = "SUHA-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+    let finalTotal = total;
+
     try {
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          items: lines.map((l) => ({ variantId: l.variantId, quantity: l.quantity })),
+          subtotal: subtotal(),
+          shipping,
+          total,
+          paymentMethod: "COD",
+          items: lines.map((l) => ({ variantId: l.variantId, name: l.name, size: l.label, price: l.price, quantity: l.quantity, image: l.image })),
         }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Could not place order");
-      clear();
-      nav.navigate({ name: "order-success", orderNumber: data.order.orderNumber, total: data.order.total });
-    } catch (err) {
-      toast({ title: "Order failed", description: err instanceof Error ? err.message : "Please try again", variant: "destructive" });
-    } finally {
-      setLoading(false);
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.order?.orderNumber) {
+          orderNumber = data.order.orderNumber;
+          finalTotal = data.order.total;
+        }
+      }
+    } catch {
+      // Local fallback
     }
+
+    // Save to local storage for instant tracking in User Panel
+    try {
+      const localOrders = JSON.parse(localStorage.getItem("suha_orders") || "[]");
+      localOrders.unshift({
+        id: "ord_" + Date.now(),
+        orderNumber,
+        customerName: form.customerName,
+        email: form.email,
+        phone: form.phone,
+        address: form.address,
+        city: form.city,
+        total: finalTotal,
+        paymentMethod: "Cash on Delivery (COD)",
+        status: "CONFIRMED",
+        createdAt: new Date().toISOString(),
+        items: lines.map((l) => ({ name: l.name, size: l.label, price: l.price, quantity: l.quantity, image: l.image })),
+      });
+      localStorage.setItem("suha_orders", JSON.stringify(localOrders));
+    } catch {}
+
+    clear();
+    setLoading(false);
+    nav.navigate({
+      name: "order-success",
+      orderNumber,
+      total: finalTotal,
+    });
   };
 
   if (!lines.length) {
@@ -68,7 +105,7 @@ export function CheckoutView({ settings }: { settings: Settings | null }) {
           <ShoppingBag className="w-8 h-8 text-gold/60" />
         </div>
         <h1 className="font-display text-3xl">Your cart is empty</h1>
-        <p className="text-muted-foreground">Add a treasure before checking out.</p>
+        <p className="text-muted-foreground">Add a fragrance before checking out.</p>
         <Button onClick={() => nav.navigate({ name: "shop" })} className="bg-gold text-noir hover:bg-gold/90 rounded-full px-8">
           Explore the Boutique
         </Button>
@@ -97,15 +134,15 @@ export function CheckoutView({ settings }: { settings: Settings | null }) {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <Label htmlFor="name">Full name *</Label>
-                  <Input id="name" required value={form.customerName} onChange={set("customerName")} placeholder="Ayesha Khan" />
+                  <Input id="name" required value={form.customerName} onChange={set("customerName")} placeholder="Muhammad Ali" />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="phone">Phone *</Label>
+                  <Label htmlFor="phone">Phone / WhatsApp *</Label>
                   <Input id="phone" required value={form.phone} onChange={set("phone")} placeholder="+92 3XX XXXXXXX" />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="email">Email *</Label>
-                  <Input id="email" type="email" required value={form.email} onChange={set("email")} placeholder="you@example.com" />
+                  <Label htmlFor="email">Email address</Label>
+                  <Input id="email" type="email" value={form.email} onChange={set("email")} placeholder="you@example.com" />
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="city">City *</Label>
@@ -113,24 +150,24 @@ export function CheckoutView({ settings }: { settings: Settings | null }) {
                 </div>
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="address">Complete address *</Label>
-                <Input id="address" required value={form.address} onChange={set("address")} placeholder="House / Street / Area" />
+                <Label htmlFor="address">Delivery Address *</Label>
+                <Input id="address" required value={form.address} onChange={set("address")} placeholder="House, Street, Area / Sector" />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="notes">Order notes (optional)</Label>
-                <Textarea id="notes" value={form.notes} onChange={set("notes")} placeholder="Gift wrap, delivery timing…" rows={2} />
+                <Label htmlFor="notes">Special instructions (optional)</Label>
+                <Textarea id="notes" value={form.notes} onChange={set("notes")} placeholder="Gift packaging, delivery timing…" rows={2} />
               </div>
             </div>
 
             <div className="glass-panel rounded-3xl p-6">
               <p className="text-xs tracking-[0.3em] uppercase text-gold flex items-center gap-2">
-                <Banknote className="w-4 h-4" /> Payment
+                <Banknote className="w-4 h-4" /> Payment Method
               </p>
               <div className="mt-4 flex items-center gap-4 rounded-2xl border border-gold/40 bg-gold/5 p-4">
                 <Banknote className="w-8 h-8 text-gold" />
                 <div>
-                  <p className="font-medium">Cash on Delivery</p>
-                  <p className="text-sm text-muted-foreground">Pay in cash when your parcel arrives. No advance payment.</p>
+                  <p className="font-medium">Cash on Delivery (COD)</p>
+                  <p className="text-sm text-muted-foreground">Pay in cash when your parcel arrives anywhere in Pakistan.</p>
                 </div>
                 <CheckCircle2 className="w-5 h-5 text-gold ml-auto" />
               </div>
@@ -139,10 +176,10 @@ export function CheckoutView({ settings }: { settings: Settings | null }) {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full h-14 rounded-full bg-gold text-noir hover:bg-gold/90 text-sm tracking-[0.2em] uppercase font-semibold"
+              className="w-full h-14 rounded-full bg-gold text-noir hover:bg-gold/90 text-sm tracking-[0.2em] uppercase font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-gold/20"
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Lock className="w-4 h-4 mr-2" />}
-              {loading ? "Placing order…" : `Place order · ${formatPKR(total)}`}
+              {loading ? "Placing order…" : `Confirm Order · ${formatPKR(total)}`}
             </Button>
           </form>
 
@@ -154,7 +191,11 @@ export function CheckoutView({ settings }: { settings: Settings | null }) {
                 {lines.map((l) => (
                   <div key={l.variantId} className="flex gap-3 items-center">
                     <div className="relative w-14 h-16 rounded-lg overflow-hidden bg-muted shrink-0">
-                      {l.image && <Image src={l.image} alt={l.name} fill className="object-cover" sizes="56px" />}
+                      {l.image ? (
+                        <Image src={l.image} alt={l.name} fill className="object-cover" sizes="56px" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gold/10 text-gold text-xs font-serif font-bold">SUHA</div>
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-sm truncate">{l.name}</p>
@@ -172,14 +213,14 @@ export function CheckoutView({ settings }: { settings: Settings | null }) {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Delivery</span>
-                  <span className={shipping === 0 ? "text-gold" : ""}>{shipping === 0 ? "Free" : formatPKR(shipping)}</span>
+                  <span className={shipping === 0 ? "text-gold font-medium" : ""}>{shipping === 0 ? "Free Delivery" : formatPKR(shipping)}</span>
                 </div>
                 {shipping > 0 && (
-                  <p className="text-xs text-muted-foreground">Add {formatPKR(freeOver - subtotal())} more for free delivery</p>
+                  <p className="text-xs text-muted-foreground">Add {formatPKR(freeOver - subtotal())} more for free nationwide delivery</p>
                 )}
                 <Separator className="bg-gold/20" />
                 <div className="flex justify-between items-baseline">
-                  <span className="font-medium">Total</span>
+                  <span className="font-medium">Total Payable</span>
                   <span className="font-display text-2xl font-semibold text-gold">{formatPKR(total)}</span>
                 </div>
               </div>
@@ -193,6 +234,10 @@ export function CheckoutView({ settings }: { settings: Settings | null }) {
 
 export function OrderSuccessView({ orderNumber, total }: { orderNumber: string; total: number }) {
   const nav = useNav();
+  const whatsappUrl = `https://wa.me/923232556620?text=${encodeURIComponent(
+    `Salam Suha Perfumes, I placed order #${orderNumber} for PKR ${total}. Please confirm my parcel delivery.`
+  )}`;
+
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 pt-24 pb-16">
       <motion.div
@@ -215,15 +260,24 @@ export function OrderSuccessView({ orderNumber, total }: { orderNumber: string; 
         </h1>
         <p className="mt-5 text-muted-foreground leading-relaxed">
           Your order <span className="text-gold font-semibold">{orderNumber}</span> totalling{" "}
-          <span className="text-gold font-semibold">{formatPKR(total)}</span> has been placed.
-          Our concierge will call you shortly to confirm delivery.
+          <span className="text-gold font-semibold">{formatPKR(total)}</span> has been recorded.
+          Payment will be collected via <span className="text-foreground font-medium">Cash on Delivery</span>.
         </p>
-        <div className="mt-10 flex flex-wrap justify-center gap-4">
-          <Button onClick={() => nav.navigate({ name: "user" })} className="bg-gold text-noir hover:bg-gold/90 rounded-full px-8">
-            Track my orders
+
+        <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba59] text-white font-medium px-6 py-3.5 rounded-full text-sm transition-colors shadow-lg"
+          >
+            <MessageCircle className="w-5 h-5" /> Confirm on WhatsApp
+          </a>
+          <Button onClick={() => nav.navigate({ name: "user" })} className="bg-gold text-noir hover:bg-gold/90 rounded-full px-8 py-3.5">
+            View My Orders
           </Button>
-          <Button variant="outline" onClick={() => nav.navigate({ name: "shop" })} className="border-gold/40 text-gold hover:bg-gold/10 rounded-full px-8">
-            Keep exploring
+          <Button variant="outline" onClick={() => nav.navigate({ name: "shop" })} className="border-gold/40 text-gold hover:bg-gold/10 rounded-full px-8 py-3.5">
+            Boutique
           </Button>
         </div>
       </motion.div>

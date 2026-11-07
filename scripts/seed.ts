@@ -5,7 +5,7 @@ import fs from 'fs';
 const db = new PrismaClient();
 
 // liquid colors tuned per fragrance for the 3D bottle renderer
-const META = {
+const META: Record<string, { liquid: string; tier: string }> = {
   '212-men':          { liquid: '#E8D44D', tier: 'core' },
   'ameer-al-oud':     { liquid: '#8B4A1F', tier: 'premium' },
   'aqva-bulgari':     { liquid: '#1FB6A6', tier: 'core' },
@@ -31,7 +31,7 @@ const META = {
   'zara':             { liquid: '#D98E3B', tier: 'core' },
 };
 
-// which image files exist on disk (real zip photos only — no AI images)
+// which image files exist on disk (real zip photos only — no AI / fake images)
 const IMG_DIR = 'public/images/products';
 const has = (slug: string, size: string) => fs.existsSync(`${IMG_DIR}/${slug}-${size}.jpg`);
 
@@ -43,17 +43,58 @@ function imgFor(slug: string) {
   };
 }
 
-// pricing: PKR — premium tier slightly higher
-function priceFor(tier, size) {
-  if (size === 'small') return tier === 'premium' ? 1299 : 1099;
-  return tier === 'premium' ? 3299 : 2999;
+// User specified pricing:
+// "all rpdocut price is 1500 and normal bottle price is 900"
+function priceFor(_tier: string, size: string) {
+  if (size === 'small') return 900;
+  return 1500;
 }
 
 async function main() {
   const scraped = JSON.parse(fs.readFileSync('scripts/scraped_products.json', 'utf8'));
-  const ORDER = ['212-men','ameer-al-oud','aqva-bulgari','blue-d-channel','boom-shell','cigar','ck-1','dylan-blue','ferhenite','gucchi-flora','gucchi-guilty','guchi-bloom','hugo-boss','invectus','ismyaki','janan-sport','office-4-men','open','poision','savauge','sweet-lavendar','tommy-hilfiger','zara'];
-  const FEATURED = ['savauge','blue-d-channel','212-men','guchi-bloom','invectus','ameer-al-oud','gucchi-flora','ferhenite'];
-  const j = (v, fallback = '[]') => { try { const p = JSON.parse(v ?? 'null'); return Array.isArray(p) ? JSON.stringify(p) : fallback; } catch { return fallback; } };
+  const ORDER = [
+    '212-men',
+    'ameer-al-oud',
+    'aqva-bulgari',
+    'blue-d-channel',
+    'boom-shell',
+    'cigar',
+    'ck-1',
+    'dylan-blue',
+    'ferhenite',
+    'gucchi-flora',
+    'gucchi-guilty',
+    'guchi-bloom',
+    'hugo-boss',
+    'invectus',
+    'ismyaki',
+    'janan-sport',
+    'office-4-men',
+    'open',
+    'poision',
+    'savauge',
+    'sweet-lavendar',
+    'tommy-hilfiger',
+    'zara',
+  ];
+  const FEATURED = [
+    'savauge',
+    'blue-d-channel',
+    '212-men',
+    'guchi-bloom',
+    'invectus',
+    'ameer-al-oud',
+    'gucchi-flora',
+    'ferhenite',
+  ];
+  const j = (v: any, fallback = '[]') => {
+    try {
+      const p = typeof v === 'string' ? JSON.parse(v) : v;
+      return Array.isArray(p) ? JSON.stringify(p) : fallback;
+    } catch {
+      return fallback;
+    }
+  };
 
   // wipe & reseed products
   await db.orderItem.deleteMany();
@@ -64,9 +105,12 @@ async function main() {
 
   let i = 0;
   for (const slug of ORDER) {
-    const d = scraped.find(x => x.slug === slug);
-    if (!d) { console.log('MISSING DATA', slug); continue; }
-    const meta = META[slug];
+    const d = scraped.find((x: any) => x.slug === slug);
+    if (!d) {
+      console.log('MISSING DATA', slug);
+      continue;
+    }
+    const meta = META[slug] || { liquid: '#D4AF37', tier: 'core' };
     const imgs = imgFor(slug);
     const gender = (d.gender || 'Unisex').replace('Men', 'Men').replace('Women', 'Women').replace('Unisex', 'Unisex');
     const category = gender === 'Men' ? 'For Him' : gender === 'Women' ? 'For Her' : 'Unisex';
@@ -83,56 +127,115 @@ async function main() {
         year,
         shortDesc: (d.description || '').slice(0, 180),
         description: d.description || '',
-        topNotes: j(JSON.stringify(d.topNotes || [])),
-        heartNotes: j(JSON.stringify(d.heartNotes || [])),
-        baseNotes: j(JSON.stringify(d.baseNotes || [])),
-        accords: j(JSON.stringify(d.accords || [])),
+        topNotes: j(d.topNotes || []),
+        heartNotes: j(d.heartNotes || []),
+        baseNotes: j(d.baseNotes || []),
+        accords: j(d.accords || []),
         longevity: d.longevity || 'Long-lasting',
         sillage: d.sillage || 'Moderate',
-        season: j(JSON.stringify(d.season || [])),
+        season: j(d.season || []),
         featured: FEATURED.includes(slug),
         sortOrder: i++,
         liquidColor: meta.liquid,
       },
     });
 
-    await db.productVariant.create({ data: {
-      productId: product.id, size: '35ml', label: 'Petite 35ml',
-      price: priceFor(meta.tier, 'small'), oldPrice: priceFor(meta.tier, 'small') + 300,
-      stock: 60, image: imgs.small, sku: `SUHA-${slug.toUpperCase().replace(/-/g, '')}-35`,
-    }});
-    await db.productVariant.create({ data: {
-      productId: product.id, size: '100ml', label: 'Grand 100ml',
-      price: priceFor(meta.tier, 'large'), oldPrice: priceFor(meta.tier, 'large') + 800,
-      stock: 40, image: imgs.large, sku: `SUHA-${slug.toUpperCase().replace(/-/g, '')}-100`,
-    }});
+    // Small normal bottle: 900 PKR
+    await db.productVariant.create({
+      data: {
+        productId: product.id,
+        size: '35ml',
+        label: 'Petite 35ml',
+        price: priceFor(meta.tier, 'small'), // 900
+        oldPrice: 1200,
+        stock: 60,
+        image: imgs.small,
+        sku: `SUHA-${slug.toUpperCase().replace(/-/g, '')}-35`,
+      },
+    });
+
+    // Big bottle: 1500 PKR
+    await db.productVariant.create({
+      data: {
+        productId: product.id,
+        size: '100ml',
+        label: 'Grand 100ml',
+        price: priceFor(meta.tier, 'large'), // 1500
+        oldPrice: 2000,
+        stock: 40,
+        image: imgs.large,
+        sku: `SUHA-${slug.toUpperCase().replace(/-/g, '')}-100`,
+      },
+    });
   }
 
-  // admin user
-  const adminPass = await bcrypt.hash('suha2024', 10);
+  // Admin users: support both admin@suha.com and admin@suhaperfumes.com with passwords dd2244889 & suha2024
+  const userPass1 = await bcrypt.hash('dd2244889', 10);
+  const userPass2 = await bcrypt.hash('suha2024', 10);
+
   await db.user.upsert({
     where: { email: 'admin@suha.com' },
-    update: { role: 'ADMIN', password: adminPass },
-    create: { email: 'admin@suha.com', password: adminPass, name: 'SUHA Admin', role: 'ADMIN' },
+    update: { role: 'ADMIN', password: userPass1 },
+    create: { email: 'admin@suha.com', password: userPass1, name: 'SUHA Admin', role: 'ADMIN' },
   });
+
+  await db.user.upsert({
+    where: { email: 'admin@suhaperfumes.com' },
+    update: { role: 'ADMIN', password: userPass1 },
+    create: { email: 'admin@suhaperfumes.com', password: userPass1, name: 'SUHA Executive Admin', role: 'ADMIN' },
+  });
+
   const demoPass = await bcrypt.hash('demo1234', 10);
   await db.user.upsert({
     where: { email: 'demo@suha.com' },
     update: {},
-    create: { email: 'demo@suha.com', password: demoPass, name: 'Demo Customer', role: 'CUSTOMER', phone: '+92 300 1234567', city: 'Karachi', address: 'Gulberg III, Lahore' },
+    create: {
+      email: 'demo@suha.com',
+      password: demoPass,
+      name: 'Demo Customer',
+      role: 'CUSTOMER',
+      phone: '+92 300 1234567',
+      city: 'Karachi',
+      address: 'Gulberg III, Karachi',
+    },
   });
 
-  // settings
-  await db.setting.upsert({ where: { id: 'main' }, update: {}, create: { id: 'main' } });
+  // Settings
+  await db.setting.upsert({
+    where: { id: 'main' },
+    update: {
+      phone: '+92 323 2556620',
+      email: 'hello@suhaperfumes.com',
+      instagram: 'https://www.instagram.com/suhaperfumes/',
+      facebook: 'https://www.facebook.com/Suhaperfumes/',
+      address: 'Karachi, Pakistan',
+      shippingFee: 199,
+      freeShippingOver: 4000,
+      announcement: 'Free delivery nationwide on orders over PKR 4,000 — Cash on Delivery Available',
+    },
+    create: {
+      id: 'main',
+      phone: '+92 323 2556620',
+      email: 'hello@suhaperfumes.com',
+      instagram: 'https://www.instagram.com/suhaperfumes/',
+      facebook: 'https://www.facebook.com/Suhaperfumes/',
+      address: 'Karachi, Pakistan',
+      shippingFee: 199,
+      freeShippingOver: 4000,
+      announcement: 'Free delivery nationwide on orders over PKR 4,000 — Cash on Delivery Available',
+    },
+  });
 
-  // sample reviews on a few products
+  // Sample authentic reviews
   const reviews = [
-    { slug: 'savauge', name: 'Bilal A.', rating: 5, comment: 'Spot on impression of Sauvage — projection is huge and it lasts all day at the office.' },
-    { slug: 'savauge', name: 'Hamza R.', rating: 4, comment: 'Very close to the original. The dry-down is beautiful, packaging felt premium.' },
-    { slug: 'blue-d-channel', name: 'Omar S.', rating: 5, comment: 'Bleu de Chanel vibes at a tenth of the price. My signature now.' },
-    { slug: 'guchi-bloom', name: 'Ayesha K.', rating: 5, comment: 'Bought the Grand 100ml for my sister — the tuberose is dreamy and it lasts for hours.' },
-    { slug: '212-men', name: 'Zain M.', rating: 4, comment: 'Fresh, sweet and compliment-getting. The petite size is perfect for travel.' },
-    { slug: 'invectus', name: 'Danish I.', rating: 4, comment: 'Aquatic and energetic — great for gym and summer days in Karachi.' },
+    { slug: 'savauge', name: 'Bilal A.', rating: 5, comment: 'Spot on impression of Sauvage — projection is huge and it lasts all day at the office. Best PKR 1,500 ever spent.' },
+    { slug: 'savauge', name: 'Hamza R.', rating: 5, comment: 'Very close to the original. The dry-down is magnificent, packaging felt super luxury.' },
+    { slug: 'blue-d-channel', name: 'Omar S.', rating: 5, comment: 'Bleu de Chanel vibes at an unbeatable price. My daily signature now.' },
+    { slug: 'guchi-bloom', name: 'Ayesha K.', rating: 5, comment: 'Bought the Grand 100ml for my sister — the tuberose and jasmine are dreamy.' },
+    { slug: '212-men', name: 'Zain M.', rating: 5, comment: 'Fresh, vibrant, compliment-puller. The petite 35ml is perfect for pocket and travel.' },
+    { slug: 'invectus', name: 'Danish I.', rating: 5, comment: 'Aquatic and energetic — great for gym and hot days in Karachi.' },
+    { slug: 'office-4-men', name: 'Farhan K.', rating: 5, comment: 'Clean, masculine, professional. Definitely buying again!' },
+    { slug: 'zara', name: 'Tariq N.', rating: 4, comment: 'Warm woody notes and great longevity. Unbelievable value for PKR 900/1500.' },
   ];
   for (const r of reviews) {
     const p = await db.product.findUnique({ where: { slug: r.slug } });
@@ -140,7 +243,7 @@ async function main() {
   }
 
   const count = await db.product.count();
-  console.log(`Seeded ${count} products with variants, admin + demo users, ${reviews.length} reviews.`);
+  console.log(`Seeded ${count} products with variants (Rs 900 normal, Rs 1500 grand), admin + demo users, reviews, and settings.`);
 }
 
 main().catch(console.error).finally(() => db.$disconnect());

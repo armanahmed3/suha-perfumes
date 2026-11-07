@@ -31,11 +31,28 @@ export function UserPanelView() {
   const [saving, setSaving] = useState(false);
 
   const loadOrders = useCallback(async () => {
-    const res = await fetch("/api/orders", { cache: "no-store" });
-    if (res.ok) {
-      const data = await res.json();
-      setOrders(data.orders);
-    } else setOrders([]);
+    let serverOrders: OrderT[] = [];
+    try {
+      const res = await fetch("/api/orders", { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        serverOrders = data.orders || [];
+      }
+    } catch {}
+
+    let localOrders: OrderT[] = [];
+    try {
+      localOrders = JSON.parse(localStorage.getItem("suha_orders") || "[]");
+    } catch {}
+
+    // Merge by orderNumber
+    const map = new Map<string, OrderT>();
+    for (const o of [...localOrders, ...serverOrders]) {
+      if (o.orderNumber && !map.has(o.orderNumber)) {
+        map.set(o.orderNumber, o);
+      }
+    }
+    setOrders(Array.from(map.values()));
   }, []);
 
   useEffect(() => {

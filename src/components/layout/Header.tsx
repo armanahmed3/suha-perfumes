@@ -85,12 +85,19 @@ export function Header() {
             className="flex items-center gap-3 group"
             aria-label="SUHA Perfumes home"
           >
-            <span className="relative w-10 h-10 lg:w-12 lg:h-12 transition-transform duration-500 group-hover:scale-110">
-              <Image src="/images/logo-gold.png" alt="SUHA Perfumes logo" fill className="object-contain object-center" sizes="48px" />
+            <span className="relative w-10 h-10 lg:w-12 lg:h-12 transition-transform duration-500 group-hover:scale-105">
+              <Image
+                src="/images/logo-icon.png"
+                alt="SUHA Perfumes emblem"
+                fill
+                className="object-contain object-center drop-shadow-[0_2px_12px_rgba(212,175,55,0.4)]"
+                sizes="48px"
+                priority
+              />
             </span>
             <span className="text-left leading-none">
-              <span className="block font-display text-xl lg:text-2xl font-semibold tracking-[0.18em] gold-text">SUHA</span>
-              <span className="block text-[9px] lg:text-[10px] tracking-[0.5em] uppercase text-muted-foreground">Perfumes</span>
+              <span className="block font-display text-xl lg:text-2xl font-semibold tracking-[0.2em] gold-text">SUHA</span>
+              <span className="block text-[9px] lg:text-[10px] tracking-[0.45em] uppercase text-muted-foreground mt-0.5">Perfumes</span>
             </span>
           </button>
 
