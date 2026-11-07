@@ -3,7 +3,7 @@
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-import { Float, Sparkles } from "@react-three/drei";
+import { Float, Sparkles, useTexture } from "@react-three/drei";
 
 type BottleProps = {
   liquidColor?: string;
@@ -11,14 +11,69 @@ type BottleProps = {
   capColor?: string;
   autoRotate?: boolean;
   rotateSpeed?: number;
+  /** Product bottle cutout (transparent PNG). When set, the 3D model shows this exact bottle. */
+  photo?: string;
 };
 
 /**
- * Procedurally generated luxury perfume bottle rendered with 3D meshes.
- * Large = frosted rounded-shoulder flacon with metal cap (matches real SUHA 100ml).
- * Small = clear cylinder travel spray with white pump (matches real SUHA 35ml).
+ * Entry point. With a `photo`, renders the product's own bottle as a 3D textured model.
+ * Without one, renders the generic procedural flacon.
  */
-export function PerfumeBottle({
+export function PerfumeBottle(props: BottleProps) {
+  if (props.photo) return <PhotoBottle {...props} photo={props.photo} />;
+  return <ProceduralBottle {...props} />;
+}
+
+/**
+ * Real product bottle: the product photo (transparent cutout) is applied as the 3D texture.
+ * Two crossed textured planes give the bottle depth when it rotates.
+ */
+function PhotoBottle({
+  photo,
+  size = "large",
+  autoRotate = true,
+  rotateSpeed = 0.6,
+}: BottleProps & { photo: string }) {
+  const group = useRef<THREE.Group>(null);
+  const tex = useTexture(photo);
+  const isLarge = size === "large";
+
+  useMemo(() => {
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 8;
+  }, [tex]);
+
+  // Cutout PNGs are 1066x1600 (aspect 0.666)
+  const H = isLarge ? 2.9 : 2.5;
+  const W = H * 0.6663;
+
+  useFrame((state, delta) => {
+    if (group.current && autoRotate) {
+      group.current.rotation.y += delta * rotateSpeed * 0.5;
+    }
+  });
+
+  return (
+    <group ref={group} position={[0, isLarge ? -1.2 : -1.1, 0]}>
+      <mesh position={[0, H / 2, 0]} castShadow>
+        <planeGeometry args={[W, H]} />
+        <meshStandardMaterial map={tex} transparent alphaTest={0.05} side={THREE.DoubleSide} roughness={0.35} metalness={0.05} />
+      </mesh>
+      <mesh position={[0, H / 2, 0]} rotation={[0, Math.PI / 2, 0]} castShadow>
+        <planeGeometry args={[W, H]} />
+        <meshStandardMaterial map={tex} transparent alphaTest={0.05} side={THREE.DoubleSide} roughness={0.35} metalness={0.05} />
+      </mesh>
+      <Sparkles count={22} scale={[2.6, 3.4, 2.6]} position={[0, 1.2, 0]} size={2.2} speed={0.35} color="#E9C767" opacity={0.55} />
+    </group>
+  );
+}
+
+/**
+ * Generic procedurally generated luxury perfume bottle rendered with 3D meshes.
+ * Large = frosted rounded-shoulder flacon with metal cap.
+ * Small = clear cylinder travel spray with white pump.
+ */
+function ProceduralBottle({
   liquidColor = "#D4AF37",
   size = "large",
   capColor = "#C0C0C8",

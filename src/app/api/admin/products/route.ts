@@ -50,7 +50,7 @@ function parseNewVariant(o: Record<string, unknown>): VariantData | null {
   const price = num(o.price)
   if (!label || price === null || price < 0) return null
   return {
-    size: trimStr(o.size) || '100ml',
+    size: trimStr(o.size) || '50ml',
     label,
     price,
     oldPrice: num(o.oldPrice),

@@ -8,13 +8,15 @@ import { PerfumeBottle } from "./PerfumeBottle";
 type Props = {
   liquidColor: string;
   size: "small" | "large";
+  /** Product bottle cutout shown on the 3D model */
+  photo?: string;
 };
 
 /**
  * Interactive high-fidelity bottle viewer with orbit controls.
  * Lets shoppers spin the flacon and inspect it from every angle.
  */
-export default function BottleViewer({ liquidColor, size }: Props) {
+export default function BottleViewer({ liquidColor, size, photo }: Props) {
   const isLarge = size === "large";
   return (
     <Canvas
@@ -30,7 +32,7 @@ export default function BottleViewer({ liquidColor, size }: Props) {
         <pointLight position={[3, -1.5, 3]} intensity={18} color="#ffffff" />
 
         <group position={[0, -0.35, 0]}>
-          <PerfumeBottle liquidColor={liquidColor} size={size} autoRotate={false} capColor={isLarge ? "#C8C8D0" : "#F2F2EE"} />
+          <PerfumeBottle liquidColor={liquidColor} size={size} photo={photo} autoRotate={false} capColor={isLarge ? "#C8C8D0" : "#F2F2EE"} />
         </group>
 
         <ContactShadows position={[0, -1.52, 0]} opacity={0.4} scale={8} blur={2.4} far={2.6} color="#000000" />

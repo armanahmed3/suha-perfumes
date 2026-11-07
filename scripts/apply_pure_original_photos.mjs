@@ -59,3 +59,4 @@ for (const [slug, item] of Object.entries(PHOTO_MAP)) {
 }
 
 console.log(`✓ Successfully copied ${count}/46 PURE ORIGINAL real photos into ${OUT}`);
+

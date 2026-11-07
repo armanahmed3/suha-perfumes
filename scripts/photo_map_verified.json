@@ -1,0 +1,13 @@
+{
+  "212-men":        { "small": "WA0057" },
+  "office-4-men":   { "small": "WA0056", "large": "WA0116" },
+  "gucchi-flora":   { "small": "WA0058", "large": "WA0130" },
+  "gucchi-guilty":  { "large": "WA0099" },
+  "guchi-bloom":    { "large": "WA0156" },
+  "tommy-hilfiger": { "large": "WA0127" },
+  "aqva-bulgari":   { "large": "WA0154" },
+  "invectus":       { "small": "WA0060" },
+  "hugo-boss":      { "small": "WA0059" },
+  "sweet-lavendar": { "small": "WA0065" },
+  "zara":           { "small": "WA0064", "large": "WA0096" }
+}

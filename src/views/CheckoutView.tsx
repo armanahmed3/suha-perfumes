@@ -1,5 +1,6 @@
 "use client";
 
+import { SHOP_ADDRESS } from "@/lib/shop";
 import Image from "next/image";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -262,6 +263,7 @@ export function OrderSuccessView({ orderNumber, total }: { orderNumber: string; 
           Your order <span className="text-gold font-semibold">{orderNumber}</span> totalling{" "}
           <span className="text-gold font-semibold">{formatPKR(total)}</span> has been recorded.
           Payment will be collected via <span className="text-foreground font-medium">Cash on Delivery</span>.
+          Prefer to buy in person? Visit us at <span className="text-foreground font-medium">{SHOP_ADDRESS}</span>.
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">

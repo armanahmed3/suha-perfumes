@@ -31,7 +31,7 @@ export function CartDrawer() {
               <ShoppingBag className="w-8 h-8 text-gold/60" />
             </div>
             <p className="font-display text-xl">Your cart awaits its first treasure</p>
-            <p className="text-sm text-muted-foreground">Discover 23 luxury impression fragrances.</p>
+            <p className="text-sm text-muted-foreground">Discover our luxury impression fragrances.</p>
             <Button
               onClick={() => {
                 setDrawer(false);

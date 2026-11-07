@@ -1,5 +1,6 @@
 "use client";
 
+import { SHOP_ADDRESS, SHOP_MAPS_URL } from "@/lib/shop";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
@@ -53,7 +54,7 @@ export function AboutView() {
             </p>
             <p>
               Each composition is blended with high oil concentration, matured, and bottled by hand — in a{" "}
-              <strong className="text-gold">Petite 35ml</strong> travel spray or a <strong className="text-gold">Grand 100ml</strong> frosted
+              <strong className="text-gold">Petite 15ml</strong> travel spray or a <strong className="text-gold">Grand 50ml</strong> frosted
               flacon. Same scent, same performance, honest pricing.
             </p>
             <p>
@@ -105,7 +106,7 @@ export function AboutView() {
           <h2 className="font-display text-4xl font-semibold mb-8">Visit or <span className="gold-text italic">call us</span></h2>
           <div className="grid sm:grid-cols-3 gap-4">
             {[
-              { icon: MapPin, label: "Atelier", value: "Karachi, Pakistan" },
+              { icon: MapPin, label: "Visit our shop", value: SHOP_ADDRESS, href: SHOP_MAPS_URL },
               { icon: Phone, label: "Phone / WhatsApp", value: "+92 323 2556620" },
               { icon: Instagram, label: "Social", value: "@suhaperfumes" },
             ].map((c) => (
@@ -164,7 +165,7 @@ export function ContactView() {
               { icon: Phone, t: "Call or WhatsApp", v: "+92 323 2556620", href: "tel:+923232556620" },
               { icon: Instagram, t: "Instagram", v: "@suhaperfumes", href: "https://www.instagram.com/suhaperfumes/" },
               { icon: Facebook, t: "Facebook", v: "Suhaperfumes", href: "https://www.facebook.com/Suhaperfumes/" },
-              { icon: MapPin, t: "Atelier", v: "Karachi, Pakistan", href: undefined },
+              { icon: MapPin, t: "Visit our shop", v: SHOP_ADDRESS, href: SHOP_MAPS_URL },
             ].map((c) => (
               <a key={c.t} href={c.href} target={c.href?.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className={`luxury-card gold-border rounded-2xl p-5 flex items-center gap-4 ${c.href ? "cursor-pointer" : "cursor-default"}`}>
                 <span className="w-11 h-11 rounded-full bg-gold/12 border border-gold/40 flex items-center justify-center shrink-0">

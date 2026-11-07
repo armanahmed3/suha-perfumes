@@ -73,9 +73,9 @@ export function HomeView({ products, settings }: { products: Product[]; settings
                 transition={{ duration: 0.9, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
                 className="mt-6 text-base sm:text-lg text-muted-foreground max-w-lg leading-relaxed"
               >
-                23 luxury impression fragrances for him &amp; her — meticulously blended, beautifully bottled.
-                Every icon, reimagined in <span className="text-gold">Petite 35ml</span> and{" "}
-                <span className="text-gold">Grand 100ml</span>.
+                {products.length} luxury impression fragrances for him &amp; her — meticulously blended, beautifully bottled.
+                Every icon, reimagined in <span className="text-gold">Petite 15ml</span> and{" "}
+                <span className="text-gold">Grand 50ml</span>.
               </motion.p>
 
               <motion.div
@@ -108,8 +108,8 @@ export function HomeView({ products, settings }: { products: Product[]; settings
                 className="mt-12 flex gap-8 sm:gap-12"
               >
                 {[
-                  { n: "23+", l: "Fragrances" },
-                  { n: "2", l: "Sizes each" },
+                  { n: `${products.length}+`, l: "Fragrances" },
+                  { n: "2", l: "Bottle sizes" },
                   { n: "4.8★", l: "Loved rating" },
                 ].map((s) => (
                   <div key={s.l}>
@@ -180,7 +180,7 @@ export function HomeView({ products, settings }: { products: Product[]; settings
             onClick={() => nav.navigate({ name: "shop" })}
             className="border-gold/40 text-gold hover:bg-gold/10 rounded-full px-8 h-12 tracking-[0.15em] uppercase text-sm"
           >
-            View all 23 fragrances <ArrowRight className="w-4 h-4 ml-2" />
+            View all {products.length} fragrances <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
         </Reveal>
       </section>
@@ -197,16 +197,16 @@ export function HomeView({ products, settings }: { products: Product[]; settings
               <div className="relative grid grid-cols-2 gap-5">
                 <div className="luxury-card gold-border rounded-3xl overflow-hidden">
                   <div className="relative aspect-[3/4]">
-                    <Image src="/images/products/zara-small.jpg" alt="Petite 35ml travel spray" fill className="object-cover" sizes="(max-width:1024px) 45vw, 300px" />
+                    <Image src="/images/products/zara-small.jpg" alt="Petite 15ml travel spray" fill className="object-cover" sizes="(max-width:1024px) 45vw, 300px" />
                   </div>
                   <div className="p-4 text-center">
                     <p className="font-display text-lg font-semibold">Petite</p>
-                    <p className="text-xs text-muted-foreground tracking-[0.2em]">35ML SPRAY</p>
+                    <p className="text-xs text-muted-foreground tracking-[0.2em]">15ML SPRAY</p>
                   </div>
                 </div>
                 <div className="luxury-card gold-border rounded-3xl overflow-hidden">
                   <div className="relative aspect-[3/4]">
-                    <Image src="/images/products/zara-large.jpg" alt="Grand 100ml flacon" fill className="object-cover" sizes="(max-width:1024px) 45vw, 300px" />
+                    <Image src="/images/products/zara-large.jpg" alt="Grand 50ml flacon" fill className="object-cover" sizes="(max-width:1024px) 45vw, 300px" />
                   </div>
                   <div className="p-4 text-center">
                     <p className="font-display text-lg font-semibold">Grand</p>
@@ -223,8 +223,8 @@ export function HomeView({ products, settings }: { products: Product[]; settings
               Every scent in <span className="gold-text italic">two volumes</span>
             </h2>
             <p className="mt-6 text-muted-foreground leading-relaxed">
-              Carry the <strong className="text-gold">Petite 35ml</strong> in your bag for touch-ups on the go, and let the{" "}
-              <strong className="text-gold">Grand 100ml</strong> reign on your vanity. Same meticulous oil, same lasting trail —
+              Carry the <strong className="text-gold">Petite 15ml</strong> in your bag for touch-ups on the go, and let the{" "}
+              <strong className="text-gold">Grand 50ml</strong> reign on your vanity. Same meticulous oil, same lasting trail —
               every fragrance in the SUHA repertoire comes in both volumes.
             </p>
             <ul className="mt-8 space-y-4">
@@ -259,7 +259,7 @@ export function HomeView({ products, settings }: { products: Product[]; settings
         </Reveal>
         <div className="grid sm:grid-cols-3 gap-5">
           {[
-            { title: "For Him", sub: "Bold woods & fresh aquatics", gender: "Men", img: "hugo-boss" },
+            { title: "For Him", sub: "Bold woods & fresh aquatics", gender: "Men", img: "office-4-men" },
             { title: "For Her", sub: "Blooms, amber & allure", gender: "Women", img: "guchi-bloom" },
             { title: "Unisex", sub: "Shared secrets in a bottle", gender: "Unisex", img: "zara" },
           ].map((c, i) => (

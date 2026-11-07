@@ -1,5 +1,6 @@
 "use client";
 
+import { SHOP_ADDRESS, SHOP_MAPS_URL } from "@/lib/shop";
 import Image from "next/image";
 import { Facebook, Instagram, Phone, MapPin, Mail } from "lucide-react";
 import { useNav } from "@/lib/store";
@@ -38,7 +39,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-sm text-[#f3ecdd]/60 leading-relaxed">
-              Luxury impression fragrances, hand-blended in Karachi. Iconic scents, honest prices — in Petite 35ml &amp; Grand 100ml.
+              Luxury impression fragrances, hand-blended in Karachi. Iconic scents, honest prices — in Petite 15ml &amp; Grand 50ml.
             </p>
             <div className="flex gap-3 mt-5">
               <a
@@ -116,7 +117,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2.5">
                 <MapPin className="w-4 h-4 text-gold shrink-0" />
-                Karachi, Pakistan
+                <a href={SHOP_MAPS_URL} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">{SHOP_ADDRESS}</a>
               </li>
             </ul>
           </address>

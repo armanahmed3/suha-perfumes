@@ -478,8 +478,8 @@ function ProductDialog({
             name: form.name, gender: form.gender, brand: form.brand, description: form.description,
             liquidColor: form.liquidColor, featured: form.featured, active: form.active,
             variants: [
-              { size: "35ml", label: "Petite 35ml", price: form.priceSmall, stock: form.stockSmall, image: form.imageSmall },
-              { size: "100ml", label: "Grand 100ml", price: form.priceLarge, stock: form.stockLarge, image: form.imageLarge },
+              { size: "15ml", label: "Petite 15ml", price: form.priceSmall, stock: form.stockSmall, image: form.imageSmall },
+              { size: "50ml", label: "Grand 50ml", price: form.priceLarge, stock: form.stockLarge, image: form.imageLarge },
             ],
           }
         : {
@@ -552,7 +552,7 @@ function ProductDialog({
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="rounded-2xl border border-border p-4 space-y-3">
-              <p className="text-xs tracking-[0.25em] uppercase text-gold">Petite 35ml</p>
+              <p className="text-xs tracking-[0.25em] uppercase text-gold">Petite 15ml</p>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1"><Label className="text-xs">Price</Label><Input type="number" value={form.priceSmall} onChange={(e) => setForm({ ...form, priceSmall: Number(e.target.value) })} /></div>
                 <div className="space-y-1"><Label className="text-xs">Stock</Label><Input type="number" value={form.stockSmall} onChange={(e) => setForm({ ...form, stockSmall: Number(e.target.value) })} /></div>
@@ -560,7 +560,7 @@ function ProductDialog({
               <div className="space-y-1"><Label className="text-xs">Image URL</Label><Input value={form.imageSmall} onChange={(e) => setForm({ ...form, imageSmall: e.target.value })} placeholder="/images/products/…-small.jpg" /></div>
             </div>
             <div className="rounded-2xl border border-border p-4 space-y-3">
-              <p className="text-xs tracking-[0.25em] uppercase text-gold">Grand 100ml</p>
+              <p className="text-xs tracking-[0.25em] uppercase text-gold">Grand 50ml</p>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1"><Label className="text-xs">Price</Label><Input type="number" value={form.priceLarge} onChange={(e) => setForm({ ...form, priceLarge: Number(e.target.value) })} /></div>
                 <div className="space-y-1"><Label className="text-xs">Stock</Label><Input type="number" value={form.stockLarge} onChange={(e) => setForm({ ...form, stockLarge: Number(e.target.value) })} /></div>
@@ -585,8 +585,8 @@ function ProductDialog({
 }
 
 function emptyForm(p: AdminProduct | null) {
-  const small = p?.variants.find((v) => v.size === "35ml");
-  const large = p?.variants.find((v) => v.size === "100ml") || p?.variants[0];
+  const small = p?.variants.find((v) => v.size === "15ml");
+  const large = p?.variants.find((v) => v.size === "50ml") || p?.variants[0];
   return {
     name: p?.name || "",
     brand: p?.brand || "SUHA Impressions",

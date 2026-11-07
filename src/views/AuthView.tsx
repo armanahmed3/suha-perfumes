@@ -120,12 +120,6 @@ export function AuthView({ initialMode = "login" }: { initialMode?: "login" | "r
             </button>
           </div>
 
-          {mode === "login" && (
-            <div className="mt-6 rounded-xl border border-gold/25 bg-gold/5 p-3.5 text-center text-xs text-muted-foreground">
-              <p className="font-medium text-gold mb-1 tracking-wider uppercase text-[10px]">Demo access</p>
-              Customer: demo@suha.com / demo1234 · Admin: admin@suha.com / suha2024
-            </div>
-          )}
         </div>
       </motion.div>
     </div>

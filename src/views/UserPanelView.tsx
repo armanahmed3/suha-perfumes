@@ -96,7 +96,6 @@ export function UserPanelView() {
           {[
             { label: "Orders", value: String(orders?.length ?? "—") },
             { label: "Lifetime spend", value: orders ? formatPKR(spent) : "—" },
-            { label: "Member since", value: "2024" },
           ].map((s) => (
             <div key={s.label} className="luxury-card gold-border rounded-2xl p-5 text-center">
               <p className="font-display text-2xl sm:text-3xl font-semibold text-gold truncate">{s.value}</p>

@@ -48,7 +48,7 @@ export function ShopView({ products, initialGender }: { products: Product[]; ini
             The <span className="gold-text italic">Boutique</span>
           </h1>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-            {filtered.length} luxury impressions · each in Petite 35ml &amp; Grand 100ml
+            {filtered.length} luxury impressions · each in Petite 15ml &amp; Grand 50ml
           </p>
           <div className="gold-line w-40 mx-auto mt-6" />
         </motion.div>

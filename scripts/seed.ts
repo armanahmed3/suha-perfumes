@@ -50,6 +50,18 @@ function priceFor(_tier: string, size: string) {
   return 1500;
 }
 
+
+// Verified-facts description only: original name, brand and launch year.
+// Scraped marketing text and notes are NOT used (they were AI-generated, not copied from Fragrantica).
+function factualDesc(d: any, gender: string) {
+  const who = gender === 'Men' ? 'for men' : gender === 'Women' ? 'for women' : 'unisex';
+  if (!d.brand || d.brand === 'SUHA Perfumes House Blend') {
+    return `${d.name} is a SUHA house blend ${who}, a luxury impression oil made in Karachi. Available in Petite 15ml and Grand 50ml.`;
+  }
+  const year = d.year ? ` (${d.year})` : '';
+  return `Impression of ${d.originalName} (${d.brand}${year ? `, ${d.year}` : ''}). A luxury impression oil from SUHA Perfumes, Karachi, ${who}, available in Petite 15ml and Grand 50ml.`;
+}
+
 async function main() {
   const scraped = JSON.parse(fs.readFileSync('scripts/scraped_products.json', 'utf8'));
   const ORDER = [
@@ -112,6 +124,7 @@ async function main() {
     }
     const meta = META[slug] || { liquid: '#D4AF37', tier: 'core' };
     const imgs = imgFor(slug);
+    if (!imgs.small && !imgs.large) { console.log("SKIP no photo in zip:", slug); continue; }
     const gender = (d.gender || 'Unisex').replace('Men', 'Men').replace('Women', 'Women').replace('Unisex', 'Unisex');
     const category = gender === 'Men' ? 'For Him' : gender === 'Women' ? 'For Her' : 'Unisex';
     const year = Number(d.year) || null;
@@ -125,46 +138,46 @@ async function main() {
         brand: d.brand || 'SUHA Perfumes',
         gender,
         year,
-        shortDesc: (d.description || '').slice(0, 180),
-        description: d.description || '',
-        topNotes: j(d.topNotes || []),
-        heartNotes: j(d.heartNotes || []),
-        baseNotes: j(d.baseNotes || []),
-        accords: j(d.accords || []),
-        longevity: d.longevity || 'Long-lasting',
-        sillage: d.sillage || 'Moderate',
-        season: j(d.season || []),
+        shortDesc: factualDesc(d, gender).slice(0, 180),
+        description: factualDesc(d, gender),
+        topNotes: j([]),
+        heartNotes: j([]),
+        baseNotes: j([]),
+        accords: j([]),
+        longevity: 'Long-lasting',
+        sillage: 'Moderate',
+        season: j([]),
         featured: FEATURED.includes(slug),
         sortOrder: i++,
         liquidColor: meta.liquid,
       },
     });
 
-    // Small normal bottle: 900 PKR
-    await db.productVariant.create({
+    // Small 15ml bottle (only if photo exists)
+    if (imgs.small) await db.productVariant.create({
       data: {
         productId: product.id,
-        size: '35ml',
-        label: 'Petite 35ml',
+        size: '15ml',
+        label: 'Petite 15ml',
         price: priceFor(meta.tier, 'small'), // 900
         oldPrice: 1200,
         stock: 60,
         image: imgs.small,
-        sku: `SUHA-${slug.toUpperCase().replace(/-/g, '')}-35`,
+        sku: `SUHA-${slug.toUpperCase().replace(/-/g, '')}-15`,
       },
     });
 
-    // Big bottle: 1500 PKR
-    await db.productVariant.create({
+    // Large 50ml bottle (only if photo exists)
+    if (imgs.large) await db.productVariant.create({
       data: {
         productId: product.id,
-        size: '100ml',
-        label: 'Grand 100ml',
+        size: '50ml',
+        label: 'Grand 50ml',
         price: priceFor(meta.tier, 'large'), // 1500
         oldPrice: 2000,
         stock: 40,
         image: imgs.large,
-        sku: `SUHA-${slug.toUpperCase().replace(/-/g, '')}-100`,
+        sku: `SUHA-${slug.toUpperCase().replace(/-/g, '')}-50`,
       },
     });
   }
@@ -231,16 +244,14 @@ async function main() {
     { slug: 'savauge', name: 'Bilal A.', rating: 5, comment: 'Spot on impression of Sauvage — projection is huge and it lasts all day at the office. Best PKR 1,500 ever spent.' },
     { slug: 'savauge', name: 'Hamza R.', rating: 5, comment: 'Very close to the original. The dry-down is magnificent, packaging felt super luxury.' },
     { slug: 'blue-d-channel', name: 'Omar S.', rating: 5, comment: 'Bleu de Chanel vibes at an unbeatable price. My daily signature now.' },
-    { slug: 'guchi-bloom', name: 'Ayesha K.', rating: 5, comment: 'Bought the Grand 100ml for my sister — the tuberose and jasmine are dreamy.' },
-    { slug: '212-men', name: 'Zain M.', rating: 5, comment: 'Fresh, vibrant, compliment-puller. The petite 35ml is perfect for pocket and travel.' },
+    { slug: 'guchi-bloom', name: 'Ayesha K.', rating: 5, comment: 'Bought the Grand 50ml for my sister — the tuberose and jasmine are dreamy.' },
+    { slug: '212-men', name: 'Zain M.', rating: 5, comment: 'Fresh, vibrant, compliment-puller. The petite 15ml is perfect for pocket and travel.' },
     { slug: 'invectus', name: 'Danish I.', rating: 5, comment: 'Aquatic and energetic — great for gym and hot days in Karachi.' },
     { slug: 'office-4-men', name: 'Farhan K.', rating: 5, comment: 'Clean, masculine, professional. Definitely buying again!' },
     { slug: 'zara', name: 'Tariq N.', rating: 4, comment: 'Warm woody notes and great longevity. Unbelievable value for PKR 900/1500.' },
   ];
-  for (const r of reviews) {
-    const p = await db.product.findUnique({ where: { slug: r.slug } });
-    if (p) await db.review.create({ data: { productId: p.id, name: r.name, rating: r.rating, comment: r.comment } });
-  }
+  // Sample reviews removed: no fabricated customer reviews. Real reviews come from the Reviews API.
+  void reviews;
 
   const count = await db.product.count();
   console.log(`Seeded ${count} products with variants (Rs 900 normal, Rs 1500 grand), admin + demo users, reviews, and settings.`);

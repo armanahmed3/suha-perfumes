@@ -21,8 +21,8 @@ const BottleViewer = dynamic(() => import("@/components/3d/BottleViewer"), {
 export function ProductView({ product, allProducts }: { product: Product; allProducts: Product[] }) {
   const nav = useNav();
   const cart = useCart();
-  const small = product.variants.find((v) => v.size === "35ml");
-  const large = product.variants.find((v) => v.size === "100ml");
+  const small = product.variants.find((v) => v.size === "15ml");
+  const large = product.variants.find((v) => v.size === "50ml");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [qty, setQty] = useState(1);
   const [mode3d, setMode3d] = useState(false);
@@ -77,7 +77,7 @@ export function ProductView({ product, allProducts }: { product: Product; allPro
                 aria-hidden="true"
               />
               {mode3d || !selected?.image ? (
-                <BottleViewer liquidColor={product.liquidColor} size={selected?.size === "35ml" ? "small" : "large"} />
+                <BottleViewer liquidColor={product.liquidColor} size={selected?.size === "15ml" ? "small" : "large"} photo={`/images/cutouts/${product.slug}-${selected?.size === "15ml" ? "15ml" : "50ml"}.png`} />
               ) : (
                 selected?.image && (
                   <motion.div key={selected.id} initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }} className="absolute inset-0">
@@ -125,7 +125,7 @@ export function ProductView({ product, allProducts }: { product: Product; allPro
                     ) : (
                       <BottleFallback
                         liquidColor={product.liquidColor}
-                        size={variant.size === "35ml" ? "small" : "large"}
+                        size={variant.size === "15ml" ? "small" : "large"}
                         label={`${product.name} ${variant.label}`}
                         className="absolute inset-0"
                       />

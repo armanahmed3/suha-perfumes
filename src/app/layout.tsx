@@ -20,13 +20,13 @@ const jost = Jost({
 export const metadata: Metadata = {
   title: "SUHA Perfumes — Luxury Impressions | Karachi",
   description:
-    "SUHA Perfumes crafts luxury impression fragrances for men and women. Discover 23 iconic scents in Petite 35ml and Grand 100ml. Karachi, Pakistan.",
+    "SUHA Perfumes crafts luxury impression fragrances for men and women. Discover our iconic scents in Petite 15ml and Grand 50ml. Karachi, Pakistan.",
   keywords: ["SUHA Perfumes", "perfume", "fragrance", "impressions", "Karachi", "luxury", "oud", "attar"],
   authors: [{ name: "SUHA Perfumes" }],
   icons: { icon: "/images/logo-icon.png", apple: "/images/logo-icon.png" },
   openGraph: {
     title: "SUHA Perfumes — Luxury Impressions",
-    description: "Luxury impression fragrances. Petite 35ml & Grand 100ml. Karachi, Pakistan.",
+    description: "Luxury impression fragrances. Petite 15ml & Grand 50ml. Karachi, Pakistan.",
     siteName: "SUHA Perfumes",
     type: "website",
   },

@@ -12,16 +12,16 @@ import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from
 
 // curated rotation of the real photos → display name
 const SHOTS: { src: string; name: string; tag: string }[] = [
-  { src: "/images/products/gucchi-guilty-large.jpg", name: "Gucchi Guilty", tag: "Grand 100ml · For Him" },
-  { src: "/images/products/office-4-men-large.jpg", name: "Office For Man", tag: "Grand 100ml · For Him" },
-  { src: "/images/products/sweet-lavendar-small.jpg", name: "Sweet Lavender", tag: "Petite 35ml · For Her" },
-  { src: "/images/products/guchi-bloom-large.jpg", name: "Guchi Bloom", tag: "Grand 100ml · For Her" },
-  { src: "/images/products/212-men-small.jpg", name: "212 Men", tag: "Petite 35ml · For Him" },
-  { src: "/images/products/gucchi-flora-large.jpg", name: "Gucchi Flora", tag: "Grand 100ml · For Her" },
-  { src: "/images/products/zara-large.jpg", name: "Zara For Him", tag: "Grand 100ml · For Him" },
-  { src: "/images/products/tommy-hilfiger-large.jpg", name: "Tommy Hilfiger", tag: "Grand 100ml · For Him" },
-  { src: "/images/products/aqva-bulgari-large.jpg", name: "Aqva Bulgari", tag: "Grand 100ml · For Him" },
-  { src: "/images/products/hugo-boss-large.jpg", name: "Hugo Boss", tag: "Grand 100ml · For Him" },
+  { src: "/images/products/gucchi-guilty-large.jpg", name: "Gucchi Guilty", tag: "Grand 50ml · For Him" },
+  { src: "/images/products/office-4-men-large.jpg", name: "Office For Man", tag: "Grand 50ml · For Him" },
+  { src: "/images/products/sweet-lavendar-small.jpg", name: "Sweet Lavender", tag: "Petite 15ml · For Her" },
+  { src: "/images/products/guchi-bloom-large.jpg", name: "Guchi Bloom", tag: "Grand 50ml · For Her" },
+  { src: "/images/products/212-men-small.jpg", name: "212 Men", tag: "Petite 15ml · For Him" },
+  { src: "/images/products/gucchi-flora-large.jpg", name: "Gucchi Flora", tag: "Grand 50ml · For Her" },
+  { src: "/images/products/zara-large.jpg", name: "Zara For Him", tag: "Grand 50ml · For Him" },
+  { src: "/images/products/tommy-hilfiger-large.jpg", name: "Tommy Hilfiger", tag: "Grand 50ml · For Him" },
+  { src: "/images/products/aqva-bulgari-large.jpg", name: "Aqva Bulgari", tag: "Grand 50ml · For Him" },
+  { src: "/images/products/hugo-boss-small.jpg", name: "Hugo Boss", tag: "Petite 15ml · For Him" },
 ];
 
 const DWELL_MS = 4200;
