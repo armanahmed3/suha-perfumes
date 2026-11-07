@@ -97,3 +97,4 @@ async function testReplaceBackground() {
 }
 
 testReplaceBackground().catch(console.error);
+
