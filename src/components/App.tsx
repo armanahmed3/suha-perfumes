@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import React, { Component, type ReactNode, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -17,6 +17,41 @@ import { AdminPanelView } from "@/views/AdminPanelView";
 import { AboutView, ContactView } from "@/views/InfoViews";
 import { useNav } from "@/lib/store";
 import type { Product, Settings } from "@/lib/types";
+
+class SafeBoundary extends Component<{ children: ReactNode }, { hasError: boolean; error: string | null }> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error: error?.message || "Unknown error" };
+  }
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    console.error("Caught boundary error:", error, info);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-noir flex items-center justify-center p-6 text-center">
+          <div className="max-w-md bg-card/60 backdrop-blur-md p-8 rounded-2xl border border-gold/20 shadow-2xl">
+            <h2 className="font-display text-2xl gold-text mb-3">Suha Perfumes</h2>
+            <p className="text-sm text-[#f3ecdd]/80 mb-6">Experience refinement. Let us reconnect to our fragrance collection.</p>
+            <button
+              onClick={() => {
+                this.setState({ hasError: false, error: null });
+                window.location.href = "/";
+              }}
+              className="px-6 py-2.5 rounded-full bg-gold hover:bg-gold-light text-noir font-semibold text-xs tracking-wider uppercase transition-all shadow-lg"
+            >
+              Explore Collection
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 /** Full-screen cinematic intro curtain (first visit) */
 function IntroCurtain() {
@@ -74,20 +109,38 @@ function IntroCurtain() {
 
 export default function App() {
   const nav = useNav();
-  const [products, setProducts] = useState<Product[] | null>(null);
-  const [settings, setSettings] = useState<Settings | null>(null);
+  const [products, setProducts] = useState<Product[] | null>(() => {
+    if (typeof window !== "undefined" && Array.isArray((window as any).__INITIAL_PRODUCTS__) && (window as any).__INITIAL_PRODUCTS__.length > 0) {
+      return (window as any).__INITIAL_PRODUCTS__;
+    }
+    return null;
+  });
+  const [settings, setSettings] = useState<Settings | null>(() => {
+    if (typeof window !== "undefined" && (window as any).__INITIAL_SETTINGS__) {
+      return (window as any).__INITIAL_SETTINGS__;
+    }
+    return null;
+  });
   const view = nav.view;
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/products/?sort=curated").then((r) => r.json()),
-      fetch("/api/settings/").then((r) => r.json()),
+      fetch("/api/products/?sort=curated").then((r) => r.ok ? r.json() : null).catch(() => null),
+      fetch("/api/settings/").then((r) => r.ok ? r.json() : null).catch(() => null),
     ])
       .then(([p, s]) => {
-        setProducts(p.products || []);
-        setSettings(s.settings || null);
+        if (p?.products && Array.isArray(p.products) && p.products.length > 0) {
+          setProducts(p.products);
+        } else {
+          setProducts((curr) => curr || []);
+        }
+        if (s?.settings) {
+          setSettings(s.settings);
+        }
       })
-      .catch(() => setProducts([]));
+      .catch(() => {
+        setProducts((curr) => curr || []);
+      });
   }, []);
 
   const viewKey = useMemo(() => JSON.stringify(view), [view]);
@@ -133,14 +186,16 @@ export default function App() {
   })();
 
   return (
-    <div className="min-h-screen flex flex-col grain">
-      <IntroCurtain />
-      <Header />
-      <CartDrawer />
-      <main className="flex-1 flex flex-col">
-        <ViewTransition viewKey={viewKey}>{content}</ViewTransition>
-      </main>
-      <Footer />
-    </div>
+    <SafeBoundary>
+      <div className="min-h-screen flex flex-col grain">
+        <IntroCurtain />
+        <Header />
+        <CartDrawer />
+        <main className="flex-1 flex flex-col">
+          <ViewTransition viewKey={viewKey}>{content}</ViewTransition>
+        </main>
+        <Footer />
+      </div>
+    </SafeBoundary>
   );
 }

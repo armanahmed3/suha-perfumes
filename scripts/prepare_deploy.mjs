@@ -1,5 +1,9 @@
 import fs from 'fs';
 import path from 'path';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const { ZipArchive } = require('archiver');
 
 const DIST = path.resolve('deploy_dist');
 
@@ -10,49 +14,83 @@ async function buildDeploy() {
   }
   fs.mkdirSync(DIST, { recursive: true });
 
-  // 1. Fetch index.html from local server
+  // 1. Fetch products & settings from local standalone server
+  console.log('Fetching products & settings...');
+  const pRes = await fetch('http://localhost:3000/api/products');
+  const pData = await pRes.json();
+  const pJson = JSON.stringify(pData);
+
+  const sRes = await fetch('http://localhost:3000/api/settings');
+  const sData = await sRes.json();
+  const sJson = JSON.stringify(sData);
+
+  // 2. Fetch index.html from local server
+  console.log('Fetching index.html...');
   const htmlRes = await fetch('http://localhost:3000/');
   let html = await htmlRes.text();
-  fs.writeFileSync(path.join(DIST, 'index.html'), html, 'utf8');
-  console.log('✓ Saved index.html');
 
-  // 2. Copy _next/static
+  // Inject initial preloaded data in <head> for zero-delay hydration & 100% offline fallback
+  const preloadScript = `<script>window.__INITIAL_PRODUCTS__ = ${pJson}.products || []; window.__INITIAL_SETTINGS__ = ${sJson}.settings || null;</script>`;
+  if (html.includes('</head>')) {
+    html = html.replace('</head>', `${preloadScript}</head>`);
+  } else {
+    html = preloadScript + html;
+  }
+  fs.writeFileSync(path.join(DIST, 'index.html'), html, 'utf8');
+  console.log('✓ Saved index.html with preloaded catalog state');
+
+  // 3. Copy _next/static
   const nextStaticSrc = path.resolve('.next/static');
   const nextStaticDest = path.join(DIST, '_next/static');
   fs.cpSync(nextStaticSrc, nextStaticDest, { recursive: true });
   console.log('✓ Copied _next/static');
 
-  // 3. Copy public images & assets
+  // 4. Copy public assets (all 46 real bottle images, logo, favicon, robots)
   const publicSrc = path.resolve('public');
   fs.cpSync(publicSrc, DIST, { recursive: true });
   console.log('✓ Copied public assets');
 
-  // 4. API endpoints (products & settings)
+  // 5. API endpoints (products, settings, orders, contact, reviews)
   const apiDir = path.join(DIST, 'api');
   fs.mkdirSync(path.join(apiDir, 'products'), { recursive: true });
   fs.mkdirSync(path.join(apiDir, 'settings'), { recursive: true });
   fs.mkdirSync(path.join(apiDir, 'orders'), { recursive: true });
   fs.mkdirSync(path.join(apiDir, 'contact'), { recursive: true });
   fs.mkdirSync(path.join(apiDir, 'reviews'), { recursive: true });
-  fs.mkdirSync(path.join(apiDir, 'auth'), { recursive: true });
 
-  const pRes = await fetch('http://localhost:3000/api/products');
-  const pJson = await pRes.text();
   fs.writeFileSync(path.join(apiDir, 'products', 'index.json'), pJson, 'utf8');
   fs.writeFileSync(path.join(apiDir, 'products', 'products.json'), pJson, 'utf8');
 
-  const sRes = await fetch('http://localhost:3000/api/settings');
-  const sJson = await sRes.text();
-  fs.writeFileSync(path.join(apiDir, 'settings', 'index.json'), sJson, 'utf8');
-  console.log('✓ Generated static JSON for products and settings');
+  // Robust PHP index handlers for API
+  const phpProducts = `<?php
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { exit; }
+readfile(__DIR__ . '/index.json');
+exit;
+`;
+  fs.writeFileSync(path.join(apiDir, 'products', 'index.php'), phpProducts, 'utf8');
 
-  // 4b. Next.js image proxy fallback (redirects /_next/image?url=... directly to url)
+  fs.writeFileSync(path.join(apiDir, 'settings', 'index.json'), sJson, 'utf8');
+  const phpSettings = `<?php
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { exit; }
+readfile(__DIR__ . '/index.json');
+exit;
+`;
+  fs.writeFileSync(path.join(apiDir, 'settings', 'index.php'), phpSettings, 'utf8');
+
+  // 5b. Next.js image proxy PHP fallback
   const nextImgDir = path.join(DIST, '_next', 'image');
   fs.mkdirSync(nextImgDir, { recursive: true });
   const phpImgProxy = `<?php
 $url = $_GET['url'] ?? '';
 if (!empty($url)) {
-    // Sanitize: ensure it starts with /images/
     if (strpos($url, '/images/') === 0 || strpos($url, 'images/') === 0) {
         $target = '/' . ltrim($url, '/');
         header('Location: ' . $target, true, 302);
@@ -65,9 +103,9 @@ echo 'Not found';
   fs.writeFileSync(path.join(nextImgDir, 'index.php'), phpImgProxy, 'utf8');
   fs.writeFileSync(path.join(DIST, '_next', 'image.php'), phpImgProxy, 'utf8');
 
-  // 5. PHP API Handler for Apache backend (Orders, Contact, Reviews)
+  // 5c. Orders API Handler
   const phpOrders = `<?php
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
@@ -122,8 +160,9 @@ echo json_encode(['orders' => $orders]);
 `;
   fs.writeFileSync(path.join(apiDir, 'orders', 'index.php'), phpOrders, 'utf8');
 
+  // 5d. Contact API Handler
   const phpContact = `<?php
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { exit; }
 
@@ -150,26 +189,46 @@ echo json_encode(['messages' => json_decode(file_get_contents($msgFile), true) ?
 `;
   fs.writeFileSync(path.join(apiDir, 'contact', 'index.php'), phpContact, 'utf8');
 
-  // 6. .htaccess for clean routing & JSON responses
-  const htaccess = `DirectoryIndex index.html index.php
+  // 6. Complete bulletproof .htaccess
+  const htaccess = `DirectoryIndex index.html index.php index.json
+
+<IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin "*"
+</IfModule>
 
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase /
+  RewriteEngine On
+  RewriteBase /
 
-# Redirect /_next/image?url=... to direct file
-RewriteCond %{QUERY_STRING} url=([^&]+)
-RewriteRule ^_next/image/?$ %1? [R=302,L]
+  # 1. Image proxy fallback
+  RewriteCond %{QUERY_STRING} url=([^&]+)
+  RewriteRule ^_next/image/?$ /_next/image/index.php [L,QSA]
 
-# Route /api/products (with or without query string) to index.json
-RewriteRule ^api/products/?$ /api/products/index.json [L,QSA]
-RewriteRule ^api/settings/?$ /api/settings/index.json [L]
+  # 2. API routing fallbacks
+  RewriteRule ^api/products/?$ /api/products/index.php [L,QSA]
+  RewriteRule ^api/settings/?$ /api/settings/index.php [L,QSA]
+  RewriteRule ^api/orders/?$ /api/orders/index.php [L,QSA]
+  RewriteRule ^api/contact/?$ /api/contact/index.php [L,QSA]
+  RewriteRule ^api/reviews/?$ /api/reviews/index.php [L,QSA]
 
-# Route /api/orders to php handler
-RewriteRule ^api/orders/?$ /api/orders/index.php [L,QSA]
+  # 3. SPA Route Fallback: if requested path is not a file/folder, serve index.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !^/api/
+  RewriteRule ^ index.html [L]
+</IfModule>
 
-# Route /api/contact to php handler
-RewriteRule ^api/contact/?$ /api/contact/index.php [L,QSA]
+# MIME types
+<IfModule mod_mime.c>
+  AddType application/javascript .js
+  AddType text/css .css
+  AddType application/json .json
+  AddType image/svg+xml .svg
+  AddType image/jpeg .jpg .jpeg
+  AddType image/png .png
+  AddType image/webp .webp
+  AddType image/x-icon .ico
+</IfModule>
 
 # Gzip compression for speed
 <IfModule mod_deflate.c>
@@ -182,16 +241,69 @@ RewriteRule ^api/contact/?$ /api/contact/index.php [L,QSA]
   ExpiresByType image/jpg "access plus 1 month"
   ExpiresByType image/jpeg "access plus 1 month"
   ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
   ExpiresByType text/css "access plus 1 week"
   ExpiresByType application/javascript "access plus 1 week"
 </IfModule>
-</IfModule>
 `;
   fs.writeFileSync(path.join(DIST, '.htaccess'), htaccess, 'utf8');
-  console.log('✓ Created .htaccess with clean routing');
+  console.log('✓ Created .htaccess with SPA fallback and API handlers');
 
-  console.log('✓ Full deployment package ready in deploy_dist!');
+  // 7. Create ZIP archive with UNIX 0755 / 0644 permissions using archiver
+  console.log('Creating ZIP archive with POSIX 755/644 permissions...');
+  await createUnixZip(DIST, path.resolve('suha_deploy.zip'));
+  console.log('✓ suha_deploy.zip created successfully!');
+
+  // Also create products_images_only.zip
+  await createUnixZip(path.resolve('public/images/products'), path.resolve('products_images_only.zip'));
+  console.log('✓ products_images_only.zip created successfully!');
+
+  console.log('\n======================================');
+  console.log('✓ FULL DEPLOYMENT PACKAGE READY!');
+  console.log('======================================');
+}
+
+function createUnixZip(sourceDir, outPath) {
+  return new Promise((resolve, reject) => {
+    const output = fs.createWriteStream(outPath);
+    const archive = new ZipArchive({
+      zlib: { level: 9 },
+    });
+
+    output.on('close', () => {
+      console.log(`Saved ${path.basename(outPath)} (${archive.pointer()} total bytes)`);
+      resolve();
+    });
+
+    archive.on('error', (err) => reject(err));
+
+    archive.pipe(output);
+
+    function addDirRecursive(currentDir, relativePath = '') {
+      const items = fs.readdirSync(currentDir);
+      for (const item of items) {
+        const fullPath = path.join(currentDir, item);
+        const relItemPath = relativePath ? `${relativePath}/${item}` : item;
+        const stat = fs.statSync(fullPath);
+
+        if (stat.isDirectory()) {
+          archive.append(null, {
+            name: relItemPath + '/',
+            mode: 0o755,
+          });
+          addDirRecursive(fullPath, relItemPath);
+        } else {
+          archive.file(fullPath, {
+            name: relItemPath,
+            mode: 0o644,
+          });
+        }
+      }
+    }
+
+    addDirRecursive(sourceDir);
+    archive.finalize();
+  });
 }
 
 buildDeploy().catch(console.error);
-
