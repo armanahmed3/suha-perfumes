@@ -189,8 +189,44 @@ echo json_encode(['messages' => json_decode(file_get_contents($msgFile), true) ?
 `;
   fs.writeFileSync(path.join(apiDir, 'contact', 'index.php'), phpContact, 'utf8');
 
+  // 5e. Reviews API Handler
+  const phpReviews = `<?php
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { exit; }
+
+$revFile = __DIR__ . '/reviews.json';
+if (!file_exists($revFile)) file_put_contents($revFile, json_encode([]));
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = json_decode(file_get_contents('php://input'), true);
+    $rev = [
+        'id' => uniqid('rev_'),
+        'slug' => $data['slug'] ?? '',
+        'name' => $data['name'] ?? 'Customer',
+        'rating' => (int)($data['rating'] ?? 5),
+        'comment' => $data['comment'] ?? '',
+        'createdAt' => date('c'),
+    ];
+    $revs = json_decode(file_get_contents($revFile), true) ?: [];
+    array_unshift($revs, $rev);
+    file_put_contents($revFile, json_encode($revs, JSON_PRETTY_PRINT));
+    echo json_encode(['review' => $rev]);
+    exit;
+}
+echo json_encode(['reviews' => json_decode(file_get_contents($revFile), true) ?: []]);
+`;
+  fs.writeFileSync(path.join(apiDir, 'reviews', 'index.php'), phpReviews, 'utf8');
+
+  // Root index.php and 404.html fallbacks
+  fs.writeFileSync(path.join(DIST, 'index.php'), `<?php include_once __DIR__ . '/index.html'; ?>\n`, 'utf8');
+  fs.writeFileSync(path.join(DIST, '404.html'), html, 'utf8');
+
   // 6. Complete bulletproof .htaccess
   const htaccess = `DirectoryIndex index.html index.php index.json
+ErrorDocument 404 /index.html
 
 <IfModule mod_headers.c>
   Header set Access-Control-Allow-Origin "*"
@@ -258,6 +294,11 @@ echo json_encode(['messages' => json_decode(file_get_contents($msgFile), true) ?
   await createUnixZip(path.resolve('public/images/products'), path.resolve('products_images_only.zip'));
   console.log('✓ products_images_only.zip created successfully!');
 
+  // 8. Create full source project zip
+  console.log('Creating complete source code ZIP...');
+  await createSourceZip(path.resolve('suha_full_project_source.zip'));
+  console.log('✓ suha_full_project_source.zip created successfully!');
+
   console.log('\n======================================');
   console.log('✓ FULL DEPLOYMENT PACKAGE READY!');
   console.log('======================================');
@@ -302,6 +343,70 @@ function createUnixZip(sourceDir, outPath) {
     }
 
     addDirRecursive(sourceDir);
+    archive.finalize();
+  });
+}
+
+function createSourceZip(outPath) {
+  return new Promise((resolve, reject) => {
+    const output = fs.createWriteStream(outPath);
+    const archive = new ZipArchive({
+      zlib: { level: 9 },
+    });
+
+    output.on('close', () => {
+      console.log(`Saved ${path.basename(outPath)} (${archive.pointer()} total bytes)`);
+      resolve();
+    });
+
+    archive.on('error', (err) => reject(err));
+    archive.pipe(output);
+
+    const includeRoots = ['src', 'prisma', 'public', 'scripts'];
+    const includeFiles = [
+      'package.json',
+      'package-lock.json',
+      'tsconfig.json',
+      'tailwind.config.ts',
+      'postcss.config.mjs',
+      'next.config.ts',
+      'README.md',
+      '.gitignore',
+      'components.json',
+      '.env'
+    ];
+
+    for (const f of includeFiles) {
+      if (fs.existsSync(f)) {
+        archive.file(f, { name: f, mode: 0o644 });
+      }
+    }
+
+    function addSourceDir(dir, relPrefix) {
+      const items = fs.readdirSync(dir);
+      for (const item of items) {
+        if (item === 'node_modules' || item === '.next' || item === 'deploy_dist' || item === 'zip_fresh' || item.endsWith('.zip')) {
+          continue;
+        }
+        const full = path.join(dir, item);
+        const rel = relPrefix ? `${relPrefix}/${item}` : item;
+        const stat = fs.statSync(full);
+        if (stat.isDirectory()) {
+          archive.append(null, { name: rel + '/', mode: 0o755 });
+          addSourceDir(full, rel);
+        } else {
+          archive.file(full, { name: rel, mode: 0o644 });
+        }
+      }
+    }
+
+    for (const root of includeRoots) {
+      if (fs.existsSync(root)) {
+        archive.append(null, { name: root + '/', mode: 0o755 });
+        addSourceDir(root, root);
+      }
+    }
+
     archive.finalize();
   });
 }
